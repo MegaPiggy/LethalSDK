@@ -11,16 +11,22 @@ Requirement :
 - [Unity Hub](https://unity.com/download)
 
 How to install :
-(I'll made a tutorial)
+(I'll made a video tutorial)
 - Install both Unity and Unity Hub.
 - In Installs tab in Unity Hub, locate the Editor executable in the Unity installation directory.
 - Extract the SDK anywhere.
 
 How to use :
-(I'll made a tutorial)
-- Open the "LethalSDK_Project" folder though the Unity Hub or directly in an Unity Editor and wait for booting. (First run will be longer)
-- When the project is opened in Unity, go in the Mods folder in Unity and copy - paste the TemplateMod folder.
-- You must rename this new folder as the name of your mod.
+(I'll made a video tutorial)
+- Open the "LethalSDK_Project" as a project though the Unity Hub
+- Go in the Mods folder and duplicate the TemplateMod folder.
+- Raneme it as the name of your new mod.
 - Open this folder and click on the ModManifest file, change informations about your mod.
   WARNING : the Mod Name and the Mod Folder must be same !
 - You can follow how the TemplateMod is made to make your own stuff.
+- On every file in your mod folder, you must change the Asset Bundle name, can be found on the bottom of the Inspector when clicking on a file, change it from "templatemod" to the name of your mod.
+  WARNING : Leave it's subname as None.
+  WARNING : Don't forget any file in your mod, they all must use the Asset Bundle name of your mod.
+- When your mod is finished, click on the LethalSDK tab in the top of Unity, then click on AssetBundle Builder, and finally click on Build AssetBundles. (The first building will be longer)
+- When built, you can find your Asset Bundle in the folder you set, this Asset Bundle must be placed in the "Lethal Company\BepInEx\plugins\LethalExpansion\Modules\" to be loaded.
+  WARNING : Of course, all players must have the same mods in order to join the same lobby.
