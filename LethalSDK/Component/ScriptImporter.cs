@@ -1,4 +1,6 @@
-﻿using GameNetcodeStuff;
+﻿using DunGen.Adapters;
+using DunGen;
+using GameNetcodeStuff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace LethalSDK.Component
@@ -186,6 +189,30 @@ namespace LethalSDK.Component
             tmp.effectEnabled = EffectEnabled;
             tmp.disableAllWeather = DisableAllWeather;
             tmp.enableCurrentLevelWeather = EnableCurrentLevelWeather;
+
+            base.Awake();
+        }
+    }
+    [AddComponentMenu("LethalSDK/DungeonGenerator")]
+    public class SI_DungeonGenerator : ScriptImporter
+    {
+        public GameObject DungeonRoot;
+
+        public override void Awake()
+        {
+            if (this.tag != "DungeonGenerator")
+            {
+                this.tag = "DungeonGenerator";
+            }
+            RuntimeDungeon runtimeDungeon = this.gameObject.AddComponent<RuntimeDungeon>();
+            runtimeDungeon.Generator.DungeonFlow = RoundManager.Instance.dungeonFlowTypes[0];
+            runtimeDungeon.Generator.LengthMultiplier = 0.8f;
+            runtimeDungeon.Generator.PauseBetweenRooms = 0.2f;
+            runtimeDungeon.GenerateOnStart = false;
+            runtimeDungeon.Root = DungeonRoot;
+            UnityNavMeshAdapter dungeonNavMesh = this.gameObject.AddComponent<UnityNavMeshAdapter>();
+            dungeonNavMesh.BakeMode = UnityNavMeshAdapter.RuntimeNavMeshBakeMode.FullDungeonBake;
+            dungeonNavMesh.LayerMask = 35072; //256 + 2048 + 32768 = 35072
 
             base.Awake();
         }

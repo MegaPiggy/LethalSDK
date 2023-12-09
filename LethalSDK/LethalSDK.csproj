@@ -69,12 +69,16 @@
     <Reference Include="UnityEngine.IMGUIModule">
       <HintPath>..\..\..\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VideoModule">
       <HintPath>..\..\..\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\ScriptImporter.cs" />
+    <Compile Include="Editor\AssetModificationProcessor.cs" />
     <Compile Include="Utils\Classes.cs" />
     <Compile Include="Editor\LethalSDKCategory.cs" />
     <Compile Include="Editor\Lethal_AssetBundleBuilderWindow.cs" />
@@ -83,6 +87,7 @@
     <Compile Include="ScriptableObjects\ModManifest.cs" />
     <Compile Include="ScriptableObjects\Moon.cs" />
     <Compile Include="ScriptableObjects\Scrap.cs" />
+    <Compile Include="Utils\CurveContainer.cs" />
     <Compile Include="Utils\Pairs.cs" />
   </ItemGroup>
   <ItemGroup />
@@ -92,6 +97,6 @@
 del "C:\Projects\Lethal Company ReverseEnginering\Assets\Plugins\LethalSDK.dll.meta"
 xcopy /q/y/i "$(TargetPath)" "C:\Projects\LethalSDK\Assets\Plugins" /E /H /C
 del "C:\Projects\LethalSDK\Assets\Plugins\LethalSDK.dll.meta"
-xcopy /q/y/i "$(TargetPath)" "D:\Users\Holog\Documents\GitHub\LethalSDK-Unity-Project\Assets\Plugins" /E /H /C</PostBuildEvent>
+xcopy /q/y/i "$(TargetPath)" "D:\Users\Holog\Documents\GitHub\LethalSDK-Unity-Project\LethalSDK_Project\Assets\Plugins" /E /H /C</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -27,11 +27,83 @@ namespace LethalSDK.Utils
         }
     }
     [Serializable]
-    public struct ScrapSpawnChance
+    public struct IntIntPair
+    {
+        public int _int1;
+        public int _int2;
+        public IntIntPair(int _int1, int _int2)
+        {
+            this._int1 = _int1;
+            this._int2 = _int2;
+        }
+    }
+    [Serializable]
+    public struct DungeonFlowPair
+    {
+        public int ID;
+        [Range(0, 300)]
+        public int Rarity;
+        public DungeonFlowPair(int id, int rarity)
+        {
+            this.ID = id;
+            this.Rarity = Mathf.Clamp(rarity, 0, 300); ;
+        }
+    }
+    [Serializable]
+    public struct SpawnableScrapPair
+    {
+        public string ObjectName;
+        [Range(0, 100)]
+        public int SpawnWeight;
+        public SpawnableScrapPair(string objectName, int spawnWeight)
+        {
+            this.ObjectName = objectName;
+            this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
+        }
+    }
+    [Serializable]
+    public struct SpawnableMapObjectPair
+    {
+        public string ObjectName;
+        public bool SpawnFacingAwayFromWall;
+        public AnimationCurve SpawnRate;
+        public SpawnableMapObjectPair(string objectName, bool spawnFacingAwayFromWall, AnimationCurve spawnRate)
+        {
+            this.ObjectName = objectName;
+            this.SpawnFacingAwayFromWall = spawnFacingAwayFromWall;
+            this.SpawnRate = spawnRate;
+        }
+    }
+    [Serializable]
+    public struct SpawnableOutsideObjectPair
+    {
+        public string ObjectName;
+        public AnimationCurve SpawnRate;
+        public SpawnableOutsideObjectPair(string objectName, AnimationCurve spawnRate)
+        {
+            this.ObjectName = objectName;
+            this.SpawnRate = spawnRate;
+        }
+    }
+    [Serializable]
+    public struct SpawnableEnemiesPair
+    {
+        public string EnemyName;
+        [Range(0, 100)]
+        public int SpawnWeight;
+        public SpawnableEnemiesPair(string enemyName, int spawnWeight)
+        {
+            this.EnemyName = enemyName;
+            this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
+        }
+    }
+    [Serializable]
+    public struct ScrapSpawnChancePerScene
     {
         public string SceneName;
+        [Range(0, 100)]
         public int SpawnWeight;
-        public ScrapSpawnChance(string sceneName, int spawnWeight)
+        public ScrapSpawnChancePerScene(string sceneName, int spawnWeight)
         {
             this.SceneName = sceneName;
             this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
@@ -62,5 +134,30 @@ namespace LethalSDK.Utils
             this.AudioClipPath = audioClipPath;
             AudioClip = null;
         }
+    }
+    [Serializable]
+    public struct RandomWeatherPair
+    {
+        public LevelWeatherType Weather;
+        [TooltipAttribute("Thunder Frequency, Flooding speed or minimum initial enemies in eclipses")]
+        public int WeatherVariable1;
+        [TooltipAttribute("Flooding offset when Weather is Flooded")]
+        public int WeatherVariable2;
+        public RandomWeatherPair(LevelWeatherType weather, int weatherVariable1, int weatherVariable2)
+        {
+            this.Weather = weather;
+            this.WeatherVariable1 = weatherVariable1;
+            this.WeatherVariable2 = weatherVariable2;
+        }
+    }
+    public enum LevelWeatherType
+    {
+        None = -1,
+        DustClouds = 0,
+        Rainy = 1,
+        Stormy = 2,
+        Foggy = 3,
+        Flooded = 4,
+        Eclipsed = 5
     }
 }

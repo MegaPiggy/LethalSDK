@@ -35,16 +35,16 @@ namespace LethalSDK.ScriptableObjects
         [Range(0, 100)]
         public int globalSpawnWeight = 0;
         [SerializeField]
-        private ScrapSpawnChance[] _perPlanetSpawnWeight = new ScrapSpawnChance[]
+        private ScrapSpawnChancePerScene[] _perPlanetSpawnWeight = new ScrapSpawnChancePerScene[]
         {
-            new ScrapSpawnChance("41 Experimentation", 0),
-            new ScrapSpawnChance("220 Assurance", 0),
-            new ScrapSpawnChance("56 Vow", 0),
-            new ScrapSpawnChance("21 Offense", 0),
-            new ScrapSpawnChance("61 March", 0),
-            new ScrapSpawnChance("85 Rend", 0),
-            new ScrapSpawnChance("7 Dine", 0),
-            new ScrapSpawnChance("8 Titan", 0)
+            new ScrapSpawnChancePerScene("41 Experimentation", 0),
+            new ScrapSpawnChancePerScene("220 Assurance", 0),
+            new ScrapSpawnChancePerScene("56 Vow", 0),
+            new ScrapSpawnChancePerScene("21 Offense", 0),
+            new ScrapSpawnChancePerScene("61 March", 0),
+            new ScrapSpawnChancePerScene("85 Rend", 0),
+            new ScrapSpawnChancePerScene("7 Dine", 0),
+            new ScrapSpawnChancePerScene("8 Titan", 0)
         };
         [HideInInspector]
         public string serializedData;
@@ -52,9 +52,9 @@ namespace LethalSDK.ScriptableObjects
         {
             serializedData = string.Join(";", _perPlanetSpawnWeight.Select(p => $"{p.SceneName},{p.SpawnWeight}"));
         }
-        public ScrapSpawnChance[] perPlanetSpawnWeight()
+        public ScrapSpawnChancePerScene[] perPlanetSpawnWeight()
         {
-            return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new ScrapSpawnChance(split[0], int.Parse(split[1]))).ToArray();
+            return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new ScrapSpawnChancePerScene(split[0], int.Parse(split[1]))).ToArray();
         }
     }
 }
