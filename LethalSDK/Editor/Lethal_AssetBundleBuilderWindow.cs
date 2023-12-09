@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 namespace LethalSDK.Editor
 {
@@ -73,8 +74,16 @@ namespace LethalSDK.Editor
             BuildAssetBundleOptions options = uncompressedAssetBundle ? BuildAssetBundleOptions.UncompressedAssetBundle : BuildAssetBundleOptions.None;
             BuildTarget target = _64BitsAssetBundle ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneWindows;
 
-            BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
-            Debug.Log("AssetBundles built successfully.");
+            try
+            {
+                BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
+                Debug.Log("AssetBundles built successfully.");
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
+
         }
         void OnLostFocus()
         {
