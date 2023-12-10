@@ -13,6 +13,7 @@ namespace LethalSDK.ScriptableObjects
     public class Moon : ScriptableObject
     {
         public string MoonName = "NewMoon";
+        public string[] RequiredBundles;
 
         [Header("Info")]
         public string OrbitPrefabName = "Moon1";

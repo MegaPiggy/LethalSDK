@@ -11,6 +11,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using LethalSDK.Utils;
+using UnityEditor.SearchService;
 
 namespace LethalSDK.Component
 {
@@ -262,6 +264,34 @@ namespace LethalSDK.Component
         public override void Awake()
         {
             return;
+        }
+    }
+    [AddComponentMenu("LethalSDK/DoorLock")]
+    public class SI_DoorLock : ScriptImporter
+    {
+        public override void Awake()
+        {
+            base.Awake();
+        }
+    }
+    [AddComponentMenu("LethalSDK/WaterSurface")]
+    public class SI_WaterSurface : ScriptImporter
+    {
+        public override void Awake()
+        {
+            var obj = Instantiate(SpawnPrefab.Instance.waterSurface);
+            SceneManager.MoveGameObjectToScene(obj, this.gameObject.scene);
+            obj.transform.parent = this.transform;
+            obj.transform.localPosition = Vector3.zero;
+            obj.SetActive(true);
+        }
+    }
+    [AddComponentMenu("LethalSDK/Ladder")]
+    public class SI_Ladder : ScriptImporter
+    {
+        public override void Awake()
+        {
+            base.Awake();
         }
     }
 }

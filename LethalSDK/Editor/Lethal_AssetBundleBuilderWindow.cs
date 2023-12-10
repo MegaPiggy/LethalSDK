@@ -76,8 +76,22 @@ namespace LethalSDK.Editor
 
             try
             {
-                BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
-                Debug.Log("AssetBundles built successfully.");
+                if(assetBundleDirectory != null || assetBundleDirectory.Length != 0)
+                {
+                    AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
+                    if(manifest != null)
+                    {
+                        Debug.Log("AssetBundles built successfully.");
+                    }
+                    else
+                    {
+                        Debug.LogError("Cannot build AssetBundles.");
+                    }
+                }
+                else
+                {
+                    Debug.LogError("AssetBundles path cannot be blank.");
+                }
             }
             catch(Exception ex)
             {

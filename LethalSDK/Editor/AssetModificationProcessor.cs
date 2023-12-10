@@ -25,7 +25,11 @@ public class AssetModificationProcessor : AssetPostprocessor
         {
             AssetDatabase.RenameAsset(assetPath, SelectionLogger.name != string.Empty ? SelectionLogger.name : "New NavMesh");
         }
-        if (assetPath.StartsWith("Assets/Mods/") && assetPath.Split('/').Length > 3 && !assetPath.EndsWith(".unity"))
+        if (assetPath.Contains("New Terrain"))
+        {
+            AssetDatabase.RenameAsset(assetPath, SelectionLogger.name != string.Empty ? SelectionLogger.name : "New Terrain");
+        }
+        if (assetPath.ToLower().StartsWith("assets/mods/") && assetPath.Split('/').Length > 3 && !assetPath.ToLower().EndsWith(".unity") && !assetPath.ToLower().Contains("/scenes"))
         {
             var asset = AssetImporter.GetAtPath(assetPath);
             if (asset != null)
