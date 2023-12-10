@@ -15,16 +15,21 @@ namespace LethalSDK.ScriptableObjects
     {
         [HeaderAttribute("Audio Clips")]
         [SerializeField]
-        private AudioClipInfoPair[] _clips = new AudioClipInfoPair[0];
+        private AudioClipInfoPair[] _audioClips = new AudioClipInfoPair[0];
+        [SerializeField]
+        private PlanetPrefabInfoPair[] _planetPrefabs = new PlanetPrefabInfoPair[0];
         [HideInInspector]
-        public string serializedData;
+        public string serializedAudioClips;
+        [HideInInspector]
+        public string serializedPlanetPrefabs;
         private void OnValidate()
         {
-            serializedData = string.Join(";", _clips.Select(p => $"{(p.AudioClipName.Length == 0 ? (p.AudioClip != null ? p.AudioClip.name : "") : p.AudioClipName)},{AssetDatabase.GetAssetPath(p.AudioClip)}"));
+            serializedAudioClips = string.Join(";", _audioClips.Select(p => $"{(p.AudioClipName.Length == 0 ? (p.AudioClip != null ? p.AudioClip.name : "") : p.AudioClipName)},{AssetDatabase.GetAssetPath(p.AudioClip)}"));
+            serializedPlanetPrefabs = string.Join(";", _planetPrefabs.Select(p => $"{(p.PlanetPrefabName.Length == 0 ? (p.PlanetPrefab != null ? p.PlanetPrefab.name : "") : p.PlanetPrefabName)},{AssetDatabase.GetAssetPath(p.PlanetPrefab)}"));
         }
         public AudioClipInfoPair[] AudioClips()
         {
-            return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new AudioClipInfoPair(split[0], split[1])).ToArray();
+            return serializedAudioClips.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new AudioClipInfoPair(split[0], split[1])).ToArray();
         }
         public bool HaveAudioClip(string audioClipName)
         {
@@ -37,9 +42,30 @@ namespace LethalSDK.ScriptableObjects
         public Dictionary<string, string> AudioClipsDictionary()
         {
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var pair in _clips)
+            foreach (var pair in _audioClips)
             {
                 dictionary.Add(pair.AudioClipName, pair.AudioClipPath);
+            }
+            return dictionary;
+        }
+        public PlanetPrefabInfoPair[] PlanetPrefabs()
+        {
+            return serializedPlanetPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PlanetPrefabInfoPair(split[0], split[1])).ToArray();
+        }
+        public bool HavePlanetPrefabs(string planetPrefabName)
+        {
+            return PlanetPrefabs().Any(a => a.PlanetPrefabName == planetPrefabName);
+        }
+        public string PlanetPrefabsPath(string planetPrefabName)
+        {
+            return PlanetPrefabs().First(c => c.PlanetPrefabName == planetPrefabName).PlanetPrefabPath;
+        }
+        public Dictionary<string, string> PlanetPrefabsDictionary()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (var pair in _planetPrefabs)
+            {
+                dictionary.Add(pair.PlanetPrefabName, pair.PlanetPrefabPath);
             }
             return dictionary;
         }

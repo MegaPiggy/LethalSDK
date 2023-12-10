@@ -136,6 +136,21 @@ namespace LethalSDK.Utils
         }
     }
     [Serializable]
+    public struct PlanetPrefabInfoPair
+    {
+        public string PlanetPrefabName;
+        [HideInInspector]
+        public string PlanetPrefabPath;
+        [SerializeField]
+        public GameObject PlanetPrefab;
+        public PlanetPrefabInfoPair(string planetPrefabName, string planetPrefabPath)
+        {
+            this.PlanetPrefabName = planetPrefabName;
+            this.PlanetPrefabPath = planetPrefabPath;
+            PlanetPrefab = null;
+        }
+    }
+    [Serializable]
     public struct RandomWeatherPair
     {
         public LevelWeatherType Weather;

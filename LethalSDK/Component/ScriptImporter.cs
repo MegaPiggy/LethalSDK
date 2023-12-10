@@ -160,9 +160,14 @@ namespace LethalSDK.Component
         public float Room = -600f;
         [Header("MISC")]
         public bool ElevatorTriggerForProps = false;
+        public bool SetInElevatorTrigger = false;
+        public bool IsShipRoom = false;
+        public bool ToggleLocalFog = false;
+        public float FogEnabledAmount = 10f;
         [Header("Weather and effects")]
         public bool SetInsideAtmosphere = false;
         public bool InsideLighting = false;
+        public int WeatherEffect = -1;
         public bool EffectEnabled = true;
         public bool DisableAllWeather = false;
         public bool EnableCurrentLevelWeather = true;
@@ -183,11 +188,15 @@ namespace LethalSDK.Component
             tmppreset.room = Room;
             tmp.reverbPreset = tmppreset;
             tmp.usePreset = -1;
-            tmp.weatherEffect = 0;
             tmp.audioChanges = new switchToAudio[0];
             tmp.elevatorTriggerForProps = ElevatorTriggerForProps;
+            tmp.setInElevatorTrigger = SetInElevatorTrigger;
+            tmp.isShipRoom = IsShipRoom;
+            tmp.toggleLocalFog = ToggleLocalFog;
+            tmp.fogEnabledAmount = FogEnabledAmount;
             tmp.setInsideAtmosphere = SetInsideAtmosphere;
             tmp.insideLighting = InsideLighting;
+            tmp.weatherEffect = WeatherEffect;
             tmp.effectEnabled = EffectEnabled;
             tmp.disableAllWeather = DisableAllWeather;
             tmp.enableCurrentLevelWeather = EnableCurrentLevelWeather;
@@ -277,9 +286,10 @@ namespace LethalSDK.Component
     [AddComponentMenu("LethalSDK/WaterSurface")]
     public class SI_WaterSurface : ScriptImporter
     {
+        GameObject obj;
         public override void Awake()
         {
-            var obj = Instantiate(SpawnPrefab.Instance.waterSurface);
+            obj = Instantiate(SpawnPrefab.Instance.waterSurface);
             SceneManager.MoveGameObjectToScene(obj, this.gameObject.scene);
             obj.transform.parent = this.transform;
             obj.transform.localPosition = Vector3.zero;
