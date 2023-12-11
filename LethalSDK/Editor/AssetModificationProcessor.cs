@@ -113,8 +113,6 @@ public class AssetBundleVariantAssigner
         {
             if (!name.Contains("."))
             {
-                string newNameWithVariant = name + ".lem";
-
                 string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(name);
 
                 foreach (string assetPath in assetPaths)
