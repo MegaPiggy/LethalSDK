@@ -97,7 +97,6 @@
     <Compile Include="Editor\CubemapTextureBuilder.cs" />
     <Compile Include="Component\LockPosition.cs" />
     <Compile Include="Editor\LockPositionEditor.cs" />
-    <Compile Include="Editor\TerrainToMesh.cs" />
     <Compile Include="Utils\Classes.cs" />
     <Compile Include="Editor\LethalSDKCategory.cs" />
     <Compile Include="Editor\Lethal_AssetBundleBuilderWindow.cs" />
