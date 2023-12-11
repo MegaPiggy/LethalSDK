@@ -37,6 +37,7 @@ public class AssetModificationProcessor : AssetPostprocessor
                 string bundleName = ExtractBundleNameFromPath(assetPath);
 
                 asset.assetBundleName = bundleName;
+                asset.assetBundleVariant = "lem";
 
                 Debug.Log($"{assetPath} asset moved to {bundleName} asset bundle.");
             }
