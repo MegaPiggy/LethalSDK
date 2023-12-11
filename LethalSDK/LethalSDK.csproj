@@ -80,6 +80,13 @@
     <Reference Include="UnityEngine.JSONSerializeModule">
       <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEngine.JSONSerializeModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TerrainPhysicsModule">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Lethal Company\Lethal Company_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.VideoModule">
       <HintPath>..\..\..\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
@@ -90,6 +97,7 @@
     <Compile Include="Editor\CubemapTextureBuilder.cs" />
     <Compile Include="Component\LockPosition.cs" />
     <Compile Include="Editor\LockPositionEditor.cs" />
+    <Compile Include="Editor\TerrainToMesh.cs" />
     <Compile Include="Utils\Classes.cs" />
     <Compile Include="Editor\LethalSDKCategory.cs" />
     <Compile Include="Editor\Lethal_AssetBundleBuilderWindow.cs" />
