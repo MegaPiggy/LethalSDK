@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class AssetModificationProcessor : AssetPostprocessor
 {
@@ -93,5 +94,74 @@ public class SelectionLogger
         {
             return obj;
         }
+    }
+}
+[InitializeOnLoad]
+public class AssetBundleVariantAssigner
+{
+    static AssetBundleVariantAssigner()
+    {
+        AssignVariantToAssetBundles();
+    }
+
+    [InitializeOnLoadMethod]
+    static void AssignVariantToAssetBundles()
+    {
+        string[] allAssetBundleNames = AssetDatabase.GetAllAssetBundleNames();
+
+        foreach (string name in allAssetBundleNames)
+        {
+            if (!name.Contains("."))
+            {
+                string newNameWithVariant = name + ".lem";
+
+                string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(name);
+
+                foreach (string assetPath in assetPaths)
+                {
+                    AssetImporter.GetAtPath(assetPath).SetAssetBundleNameAndVariant(name, "lem");
+                }
+
+                Debug.Log($"File extention added to AssetBundle: {name}");
+            }
+        }
+
+        AssetDatabase.SaveAssets();
+
+        string folderPath = "Assets/AssetBundles";
+
+        if (!Directory.Exists(folderPath))
+        {
+            Debug.LogError("Le dossier n'existe pas : " + folderPath);
+            return;
+        }
+
+        string[] files = Directory.GetFiles(folderPath);
+
+        foreach (string file in files)
+        {
+            if (Path.GetExtension(file) == "" && Path.GetFileName(file) != "AssetBundles")
+            {
+                string metaFile = file + ".meta";
+                string manifestFile = file + ".manifest";
+                string manifestMetaFile = manifestFile + ".meta";
+                File.Delete(file);
+                if (File.Exists(metaFile))
+                {
+                    File.Delete(metaFile);
+                }
+                if (File.Exists(manifestFile))
+                {
+                    File.Delete(manifestFile);
+                }
+                if (File.Exists(manifestMetaFile))
+                {
+                    File.Delete(manifestMetaFile);
+                }
+                Debug.Log("Fichier supprimé : " + file);
+            }
+        }
+
+        AssetDatabase.Refresh();
     }
 }

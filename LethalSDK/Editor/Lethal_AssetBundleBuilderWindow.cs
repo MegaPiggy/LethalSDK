@@ -7,12 +7,12 @@ namespace LethalSDK.Editor
     public class Lethal_AssetBundleBuilderWindow : EditorWindow
     {
         private static string assetBundleDirectoryKey = "LethalSDK_AssetBundleBuilderWindow_assetBundleDirectory";
-        private static string uncompressedAssetBundleKey = "LethalSDK_AssetBundleBuilderWindow_uncompressedAssetBundle";
-        private static string _64BitsAssetBundleKey = "LethalSDK_AssetBundleBuilderWindow_64BitsAssetBundleKey";
-
+        private static string compressionModeKey = "LethalSDK_AssetBundleBuilderWindow_compressionMode";
+        private static string _64BitsModeKey = "LethalSDK_AssetBundleBuilderWindow_64BitsMode";
+        
         string assetBundleDirectory = string.Empty;
-        bool uncompressedAssetBundle;
-        bool _64BitsAssetBundle;
+        compressionOption compressionMode = compressionOption.NormalCompression;
+        bool _64BitsMode;
 
         [MenuItem("LethalSDK/AssetBundle Builder")]
         public static void ShowWindow()
@@ -35,12 +35,13 @@ namespace LethalSDK.Editor
 
             GUILayout.Label("Options", EditorStyles.boldLabel);
             GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Uncompressed Asset Bundle", "Check this to build the asset bundle without compression."), GUILayout.Width(270));
-            uncompressedAssetBundle = EditorGUILayout.Toggle(uncompressedAssetBundle);
+            EditorGUILayout.LabelField(new GUIContent("Compression Mode", "Select the compression option for the asset bundle. Faster the compression is, faster the assets will load and less CPU it will use, but the Bundle will be bigger."), GUILayout.Width(145));
+            compressionMode = (compressionOption)EditorGUILayout.EnumPopup(compressionMode, GUILayout.Width(140));
             GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(new GUIContent("64 Bits Asset Bundle (Not recommended)", "Better performances but incompatible with 32 bits computers."), GUILayout.Width(270));
-            _64BitsAssetBundle = EditorGUILayout.Toggle(_64BitsAssetBundle);
+            _64BitsMode = EditorGUILayout.Toggle(_64BitsMode);
             GUILayout.EndHorizontal();
 
             EditorGUILayout.Space(5);
@@ -59,8 +60,8 @@ namespace LethalSDK.Editor
         void ClearPreferences()
         {
             EditorPrefs.DeleteKey(assetBundleDirectoryKey);
-            EditorPrefs.DeleteKey(uncompressedAssetBundleKey);
-            EditorPrefs.DeleteKey(_64BitsAssetBundleKey);
+            EditorPrefs.DeleteKey(compressionModeKey);
+            EditorPrefs.DeleteKey(_64BitsModeKey);
             LoadPreferences();
         }
 
@@ -71,8 +72,23 @@ namespace LethalSDK.Editor
                 System.IO.Directory.CreateDirectory(assetBundleDirectory);
             }
 
-            BuildAssetBundleOptions options = uncompressedAssetBundle ? BuildAssetBundleOptions.UncompressedAssetBundle : BuildAssetBundleOptions.None;
-            BuildTarget target = _64BitsAssetBundle ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneWindows;
+            BuildAssetBundleOptions options = BuildAssetBundleOptions.None;
+            switch (compressionMode)
+            {
+                case compressionOption.NormalCompression:
+                    options = BuildAssetBundleOptions.None;
+                    break;
+                case compressionOption.FastCompression:
+                    options = BuildAssetBundleOptions.ChunkBasedCompression;
+                    break;
+                case compressionOption.Uncompressed:
+                    options = BuildAssetBundleOptions.UncompressedAssetBundle;
+                    break;
+                default:
+                    options = BuildAssetBundleOptions.None;
+                    break;
+            }
+            BuildTarget target = _64BitsMode ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneWindows;
 
             try
             {
@@ -112,15 +128,22 @@ namespace LethalSDK.Editor
         void LoadPreferences()
         {
             assetBundleDirectory = EditorPrefs.GetString(assetBundleDirectoryKey, "Assets/AssetBundles");
-            uncompressedAssetBundle = EditorPrefs.GetBool(uncompressedAssetBundleKey, false);
-            _64BitsAssetBundle = EditorPrefs.GetBool(_64BitsAssetBundleKey, false);
+            compressionMode = (compressionOption)EditorPrefs.GetInt(compressionModeKey, (int)compressionOption.NormalCompression);
+            _64BitsMode = EditorPrefs.GetBool(_64BitsModeKey, false);
         }
 
         void SavePreferences()
         {
             EditorPrefs.SetString(assetBundleDirectoryKey, assetBundleDirectory);
-            EditorPrefs.SetBool(uncompressedAssetBundleKey, uncompressedAssetBundle);
-            EditorPrefs.SetBool(_64BitsAssetBundleKey, _64BitsAssetBundle);
+            EditorPrefs.SetInt(compressionModeKey, (int)compressionMode);
+            EditorPrefs.SetBool(_64BitsModeKey, _64BitsMode);
+        }
+
+        enum compressionOption
+        {
+            NormalCompression = 0,
+            FastCompression = 1,
+            Uncompressed = 2
         }
     }
 }
