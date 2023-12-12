@@ -52,10 +52,23 @@
     </Reference>
     <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.CoreModule">
-      <HintPath>..\..\..\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+    <Reference Include="UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.PresetsUIModule">
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.PresetsUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIBuilderModule">
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIBuilderModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsModule">
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UIElementsSamplesModule">
+      <HintPath>C:\Unity\Editors\2022.3.9f1\Editor\Data\Managed\UnityEngine\UnityEditor.UIElementsSamplesModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -96,6 +109,7 @@
     <Compile Include="Editor\AssetModificationProcessor.cs" />
     <Compile Include="Editor\CubemapTextureBuilder.cs" />
     <Compile Include="Component\LockPosition.cs" />
+    <Compile Include="Editor\EditorChecker.cs" />
     <Compile Include="Editor\LockPositionEditor.cs" />
     <Compile Include="Utils\Classes.cs" />
     <Compile Include="Editor\LethalSDKCategory.cs" />

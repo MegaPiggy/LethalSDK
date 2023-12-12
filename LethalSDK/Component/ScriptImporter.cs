@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using LethalSDK.Utils;
 using UnityEditor.SearchService;
+using UnityEditor;
 
 namespace LethalSDK.Component
 {

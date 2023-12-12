@@ -12,6 +12,8 @@ namespace LethalSDK.ScriptableObjects
     [CreateAssetMenu(fileName = "New Scrap", menuName = "LethalSDK/Scrap")]
     public class Scrap : ScriptableObject
     {
+        public string[] RequiredBundles;
+        public string[] IncompatibleBundles;
         [Header("Base")]
         public string itemName = string.Empty;
         public int minValue = 0;
