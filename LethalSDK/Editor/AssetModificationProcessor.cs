@@ -24,7 +24,7 @@ public class AssetModificationProcessor : AssetPostprocessor
     {
         if (assetPath.Contains("NavMesh-Environment"))
         {
-            AssetDatabase.RenameAsset(assetPath, SelectionLogger.name != string.Empty ? SelectionLogger.name : "New NavMesh");
+            AssetDatabase.RenameAsset(assetPath, SelectionLogger.name != string.Empty ? SelectionLogger.name + "NavMesh" : "New NavMesh");
         }
         if (assetPath.Contains("New Terrain"))
         {
