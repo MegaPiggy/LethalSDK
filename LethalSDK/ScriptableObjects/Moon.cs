@@ -15,6 +15,7 @@ namespace LethalSDK.ScriptableObjects
         public string MoonName = "NewMoon";
         public string[] RequiredBundles;
         public string[] IncompatibleBundles;
+        public bool IsEnabled = true;
         public bool IsHidden = false;
         public bool IsLocked = false;
 
@@ -52,6 +53,7 @@ namespace LethalSDK.ScriptableObjects
 
         [Header("Dungeon")]
         public float FactorySizeMultiplier = 1f;
+        public int FireExitsAmountOverwrite = 1;
         [SerializeField]
         private DungeonFlowPair[] _DungeonFlowTypes = new DungeonFlowPair[]
         {

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -68,41 +69,6 @@ namespace LethalSDK.Component
             tmp.scrapValue = ScrapValue;
             tmp.creatureScanID = CreatureScanID;
             tmp.nodeType = NodeType;
-            base.Awake();
-        }
-    }
-    [AddComponentMenu("LethalSDK/ScanNodeEntrance")]
-    public class SI_ScanNodeEntrance : ScriptImporter
-    {
-        public string HeaderText = "Main entrance";
-        public override void Awake()
-        {
-            var tmp = this.gameObject.AddComponent<ScanNodeProperties>();
-            tmp.minRange = 17;
-            tmp.maxRange = 100;
-            tmp.requiresLineOfSight = false;
-            tmp.headerText = HeaderText;
-            tmp.subText = String.Empty;
-            tmp.scrapValue = 0;
-            tmp.creatureScanID = -1;
-            tmp.nodeType = 0;
-            base.Awake();
-        }
-    }
-    [AddComponentMenu("LethalSDK/ScanNodeShip")]
-    public class SI_ScanNodeShip : ScriptImporter
-    {
-        public override void Awake()
-        {
-            var tmp = this.gameObject.AddComponent<ScanNodeProperties>();
-            tmp.minRange = 17;
-            tmp.maxRange = 110;
-            tmp.requiresLineOfSight = false;
-            tmp.headerText = "Ship";
-            tmp.subText = "Home base";
-            tmp.scrapValue = 0;
-            tmp.creatureScanID = -1;
-            tmp.nodeType = 0;
             base.Awake();
         }
     }
@@ -176,7 +142,7 @@ namespace LethalSDK.Component
         public override void Awake()
         {
             var tmp = this.gameObject.AddComponent<AudioReverbTrigger>();
-            ReverbPreset tmppreset = (ReverbPreset)ScriptableObject.CreateInstance(typeof(ReverbPreset));
+            ReverbPreset tmppreset = ScriptableObject.CreateInstance<ReverbPreset>();
             tmppreset.changeDryLevel = ChangeDryLevel;
             tmppreset.dryLevel = DryLevel;
             tmppreset.changeHighFreq = ChangeHighFreq;
@@ -221,7 +187,14 @@ namespace LethalSDK.Component
             runtimeDungeon.Generator.LengthMultiplier = 0.8f;
             runtimeDungeon.Generator.PauseBetweenRooms = 0.2f;
             runtimeDungeon.GenerateOnStart = false;
+            if(DungeonRoot != null && DungeonRoot.scene == null)
+            {
+                DungeonRoot = new GameObject();
+                DungeonRoot.name = "DungeonRoot";
+                DungeonRoot.transform.position = new Vector3(0, -200, 0);
+            }
             runtimeDungeon.Root = DungeonRoot;
+            runtimeDungeon.Generator.DungeonFlow = RoundManager.Instance.dungeonFlowTypes[0];
             UnityNavMeshAdapter dungeonNavMesh = this.gameObject.AddComponent<UnityNavMeshAdapter>();
             dungeonNavMesh.BakeMode = UnityNavMeshAdapter.RuntimeNavMeshBakeMode.FullDungeonBake;
             dungeonNavMesh.LayerMask = 35072; //256 + 2048 + 32768 = 35072
@@ -303,6 +276,62 @@ namespace LethalSDK.Component
         public override void Awake()
         {
             base.Awake();
+        }
+    }
+    [AddComponentMenu("LethalSDK/ItemDropship")]
+    public class SI_ItemDropship : ScriptImporter
+    {
+        public Animator ShipAnimator;
+        public Transform[] ItemSpawnPositions;
+        public GameObject OpenTriggerObject;
+        public GameObject KillTriggerObject;
+        public AudioClip ShipThrusterCloseSound;
+        public AudioClip ShipLandSound;
+        public AudioClip ShipOpenDoorsSound;
+        public override void Awake()
+        {
+            var ItemDropship = this.gameObject.AddComponent<ItemDropship>();
+            ItemDropship.shipAnimator = ShipAnimator;
+            ItemDropship.itemSpawnPositions = ItemSpawnPositions;
+
+            var _PlayAudioAnimationEvent = this.gameObject.AddComponent<PlayAudioAnimationEvent>();
+            _PlayAudioAnimationEvent.audioToPlay = this.GetComponent<AudioSource>();
+            _PlayAudioAnimationEvent.audioClip = ShipLandSound;
+            _PlayAudioAnimationEvent.audioClip2 = ShipOpenDoorsSound;
+
+            var OpenTriggerScript = OpenTriggerObject.AddComponent<InteractTrigger>();
+            OpenTriggerScript.hoverTip = "Open : [LMB]";
+            OpenTriggerScript.twoHandedItemAllowed = true;
+            OpenTriggerScript.onInteract = new InteractEvent();
+            OpenTriggerScript.onInteract.AddListener((player) => ItemDropship.TryOpeningShip());
+
+            ItemDropship.triggerScript = OpenTriggerScript;
+
+            ItemDropship.transform.Find("Music").gameObject.AddComponent<OccludeAudio>();
+            var FacePlayerOnAxis = this.transform.Find("ThrusterContainer/Thruster").gameObject.AddComponent<facePlayerOnAxis>();
+            FacePlayerOnAxis.turnAxis = this.transform.Find("ThrusterContainer/flameAxis");
+
+            var KillLocalPlayerScript = KillTriggerObject.AddComponent<KillLocalPlayer>();
+
+            Debug.LogError(KillTriggerObject == null);
+            var KillTriggerScript = KillTriggerObject.AddComponent<InteractTrigger>();
+            KillTriggerScript.touchTrigger = true;
+            KillTriggerScript.triggerOnce = true;
+            KillTriggerScript.onInteract = new InteractEvent();
+            Debug.LogError(KillTriggerScript == null);
+            Debug.LogError(KillLocalPlayerScript == null);
+            KillTriggerScript.onInteract.AddListener((player) => KillLocalPlayerScript.KillPlayer(player));
+        }
+
+        public void Update()
+        {
+            GameObject dungeonEntrance = GameObject.Find("EntranceTeleportA(Clone)");
+            if (dungeonEntrance != null)
+            {
+                var TriggerScript = OpenTriggerObject.GetComponent<InteractTrigger>();
+                TriggerScript.hoverIcon = dungeonEntrance.GetComponent<InteractTrigger>().hoverIcon;
+                Destroy(this);
+            }
         }
     }
 }
