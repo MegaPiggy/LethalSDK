@@ -313,13 +313,10 @@ namespace LethalSDK.Component
 
             var KillLocalPlayerScript = KillTriggerObject.AddComponent<KillLocalPlayer>();
 
-            Debug.LogError(KillTriggerObject == null);
             var KillTriggerScript = KillTriggerObject.AddComponent<InteractTrigger>();
             KillTriggerScript.touchTrigger = true;
             KillTriggerScript.triggerOnce = true;
             KillTriggerScript.onInteract = new InteractEvent();
-            Debug.LogError(KillTriggerScript == null);
-            Debug.LogError(KillLocalPlayerScript == null);
             KillTriggerScript.onInteract.AddListener((player) => KillLocalPlayerScript.KillPlayer(player));
         }
 
