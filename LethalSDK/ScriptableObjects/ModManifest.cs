@@ -11,7 +11,10 @@ namespace LethalSDK.ScriptableObjects
     {
         public string modName = "New Mod";
         [Space]
-        public SerializableVersion version = new SerializableVersion(0, 0, 0, 0);
+        [SerializeField]
+        private SerializableVersion version = new SerializableVersion(0, 0, 0, 0);
+        [HideInInspector]
+        public string serializedVersion;
         [Space]
         public string author = "Author";
         [Space]
@@ -21,17 +24,16 @@ namespace LethalSDK.ScriptableObjects
         [HeaderAttribute("Content")]
         public Scrap[] scraps = new Scrap[0];
         public Moon[] moons = new Moon[0];
-        /*[HideInInspector]
-        public string serializedData;
-        private void OnValidate()
-        {
-            serializedData = string.Join(";", _scraps.Select(p => $"{p.ScrapName},{p.ScrapPath}"));
-        }
-        public ScrapInfoPair[] Scraps()
-        {
-            return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new ScrapInfoPair(split[0], split[1])).ToArray();
-        }*/
         [Space]
         public AssetBank assetBank;
+        private void OnValidate()
+        {
+            serializedVersion = version.ToString();
+        }
+        public SerializableVersion GetVersion()
+        {
+            int[] version = serializedVersion.Split('.').Select(int.Parse).ToArray();
+            return new SerializableVersion(version[0], version[1], version[2], version[3]);
+        }
     }
 }

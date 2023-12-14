@@ -17,7 +17,6 @@ namespace LethalSDK.Utils
             Build = build;
             Revision = revision;
         }
-
         public Version ToVersion()
         {
             return new Version(Major, Minor, Build, Revision);
