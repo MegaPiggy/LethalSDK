@@ -50,8 +50,8 @@ namespace LethalSDK.Component
     [AddComponentMenu("LethalSDK/ScanNode")]
     public class SI_ScanNode : ScriptImporter
     {
-        public int MinRange;
         public int MaxRange;
+        public int MinRange;
         public bool RequiresLineOfSight;
         public string HeaderText;
         public string SubText;

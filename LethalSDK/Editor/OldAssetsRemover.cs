@@ -23,6 +23,7 @@ namespace LethalSDK.Editor
             "Assets/Mods/TemplateMod/Moons/OldSeaPort.asset",
             "Assets/Mods/TemplateMod/Moons/Sky and Fog Global Volume Profile.asset",
             "Assets/Mods/TemplateMod/Moons/Sky and Fog Global Volume Profile 1.asset",
+            "Assets/Mods/TemplateMod/AssetBank.asset"
         };
 
         [InitializeOnLoadMethod]

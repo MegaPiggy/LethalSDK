@@ -32,7 +32,7 @@ namespace LethalSDK.ScriptableObjects
         }
         public SerializableVersion GetVersion()
         {
-            int[] version = serializedVersion.Split('.').Select(int.Parse).ToArray();
+            int[] version = serializedVersion != null ? serializedVersion.Split('.').Select(int.Parse).ToArray() : new int[]{0,0,0,0};
             return new SerializableVersion(version[0], version[1], version[2], version[3]);
         }
     }
