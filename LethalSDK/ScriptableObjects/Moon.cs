@@ -164,7 +164,6 @@ namespace LethalSDK.ScriptableObjects
             MoonName = MoonName.RemoveNonAlphanumeric(1);
             OrbitPrefabName = OrbitPrefabName.RemoveNonAlphanumeric(1);
             PlanetName = PlanetName.RemoveNonAlphanumeric();
-            PlanetDescription = PlanetDescription.RemoveNonAlphanumeric();
             RiskLevel = RiskLevel.RemoveNonAlphanumeric();
             RouteWord = RouteWord.RemoveNonAlphanumeric(2);
             BoughtComment = BoughtComment.RemoveNonAlphanumeric();
