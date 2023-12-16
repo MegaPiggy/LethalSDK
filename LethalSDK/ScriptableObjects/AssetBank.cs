@@ -20,6 +20,7 @@ namespace LethalSDK.ScriptableObjects
         private PlanetPrefabInfoPair[] _planetPrefabs = new PlanetPrefabInfoPair[0];
         [HideInInspector]
         public string serializedAudioClips;
+        [HideInInspector]
         public string serializedPlanetPrefabs;
         private void OnValidate()
         {

@@ -19,39 +19,63 @@ namespace LethalSDK.Utils
         };
         public static string RemoveNonAlphanumeric(this string input)
         {
-            return Regex.Replace(input, regexes[removeType.Normal], "");
+            if(input != null)
+            {
+                return Regex.Replace(input, regexes[removeType.Normal], string.Empty);
+            }
+            return string.Empty;
         }
         public static string[] RemoveNonAlphanumeric(this string[] input)
         {
-            for (int i = 0; i < input.Length; i++)
+            if (input != null)
             {
-                input[i] = Regex.Replace(input[i], regexes[removeType.Normal], "");
+                for (int i = 0; i < input.Length; i++)
+                {
+                    input[i] = Regex.Replace(input[i], regexes[removeType.Normal], string.Empty);
+                }
+                return input;
             }
-            return input;
+            return new string[0];
         }
         public static string RemoveNonAlphanumeric(this string input, removeType removeType = removeType.Normal)
         {
-            return Regex.Replace(input, regexes[removeType], "");
+            if (input != null)
+            {
+                return Regex.Replace(input, regexes[removeType], string.Empty);
+            }
+            return string.Empty;
         }
         public static string[] RemoveNonAlphanumeric(this string[] input, removeType removeType = removeType.Normal)
         {
-            for (int i = 0; i < input.Length; i++)
+            if (input != null)
             {
-                input[i] = Regex.Replace(input[i], regexes[removeType], "");
+                for (int i = 0; i < input.Length; i++)
+                {
+                    input[i] = Regex.Replace(input[i], regexes[removeType], string.Empty);
+                }
+                return input;
             }
-            return input;
+            return new string[0];
         }
         public static string RemoveNonAlphanumeric(this string input, int removeType = 0)
         {
-            return Regex.Replace(input, regexes[(removeType)removeType], "");
+            if (input != null)
+            {
+                return Regex.Replace(input, regexes[(removeType)removeType], string.Empty);
+            }
+            return string.Empty;
         }
         public static string[] RemoveNonAlphanumeric(this string[] input, int removeType = 0)
         {
-            for (int i = 0; i < input.Length; i++)
+            if (input != null)
             {
-                input[i] = Regex.Replace(input[i], regexes[(removeType)removeType], "");
+                for (int i = 0; i < input.Length; i++)
+                {
+                    input[i] = Regex.Replace(input[i], regexes[(removeType)removeType], string.Empty);
+                }
+                return input;
             }
-            return input;
+            return new string[0];
         }
         public enum removeType
         {
