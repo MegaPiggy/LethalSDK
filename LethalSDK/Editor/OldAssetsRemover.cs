@@ -23,6 +23,19 @@ namespace LethalSDK.Editor
             "Assets/Mods/TemplateMod/Moons/OldSeaPort.asset",
             "Assets/Mods/TemplateMod/Moons/Sky and Fog Global Volume Profile.asset",
             "Assets/Mods/TemplateMod/Moons/Sky and Fog Global Volume Profile 1.asset",
+            "Assets/Mods/TemplateMod/AssetBank.asset",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunCompanyLevel.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeB.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeBEclipse.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeBStormy.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeC.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeCEclipse.anim",
+            "Assets/Mods/LethalExpansion/Animations/Sun/TimeOfDaySunTypeCStormy.anim",
+            "Assets/Mods/LethalExpansion/Skybox",
+            "Assets/Mods/LethalExpansion/Sprites/XButton.png",
+            "Assets/Mods/LethalExpansion/Textures/sunTexture1.png",
+            "Assets/Mods/OldSeaPort/Materials/Maple_bark_1.mat",
+            "Assets/Mods/OldSeaPort/Materials/maple_leaves.mat",
             "Assets/Mods/TemplateMod/AssetBank.asset"
         };
 
