@@ -187,11 +187,11 @@ namespace LethalSDK.ScriptableObjects
             }
             for (int i = 0; i < _OutsideEnemies.Length; i++)
             {
-                _OutsideEnemies[i].EnemyName = _Enemies[i].EnemyName.RemoveNonAlphanumeric(1);
+                _OutsideEnemies[i].EnemyName = _OutsideEnemies[i].EnemyName.RemoveNonAlphanumeric(1);
             }
             for (int i = 0; i < _DaytimeEnemies.Length; i++)
             {
-                _DaytimeEnemies[i].EnemyName = _Enemies[i].EnemyName.RemoveNonAlphanumeric(1);
+                _DaytimeEnemies[i].EnemyName = _DaytimeEnemies[i].EnemyName.RemoveNonAlphanumeric(1);
             }
             serializedRandomWeatherTypes = string.Join(";", _RandomWeatherTypes.Select(p => $"{(int)p.Weather},{p.WeatherVariable1},{p.WeatherVariable2}"));
             serializedDungeonFlowTypes = string.Join(";", _DungeonFlowTypes.Select(p => $"{p.ID},{p.Rarity}"));
