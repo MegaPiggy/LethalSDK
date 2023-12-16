@@ -11,7 +11,7 @@ namespace LethalSDK.Utils
         public int _int;
         public StringIntPair(string _string, int _int)
         {
-            this._string = _string;
+            this._string = _string.RemoveNonAlphanumeric(1);
             this._int = Mathf.Clamp(_int, 0, 100);
         }
     }
@@ -22,8 +22,8 @@ namespace LethalSDK.Utils
         public string _string2;
         public StringStringPair(string _string1, string _string2)
         {
-            this._string1 = _string1;
-            this._string2 = _string2;
+            this._string1 = _string1.RemoveNonAlphanumeric(1);
+            this._string2 = _string2.RemoveNonAlphanumeric(1);
         }
     }
     [Serializable]
@@ -57,7 +57,7 @@ namespace LethalSDK.Utils
         public int SpawnWeight;
         public SpawnableScrapPair(string objectName, int spawnWeight)
         {
-            this.ObjectName = objectName;
+            this.ObjectName = objectName.RemoveNonAlphanumeric(1);
             this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
         }
     }
@@ -69,7 +69,7 @@ namespace LethalSDK.Utils
         public AnimationCurve SpawnRate;
         public SpawnableMapObjectPair(string objectName, bool spawnFacingAwayFromWall, AnimationCurve spawnRate)
         {
-            this.ObjectName = objectName;
+            this.ObjectName = objectName.RemoveNonAlphanumeric(1);
             this.SpawnFacingAwayFromWall = spawnFacingAwayFromWall;
             this.SpawnRate = spawnRate;
         }
@@ -81,7 +81,7 @@ namespace LethalSDK.Utils
         public AnimationCurve SpawnRate;
         public SpawnableOutsideObjectPair(string objectName, AnimationCurve spawnRate)
         {
-            this.ObjectName = objectName;
+            this.ObjectName = objectName.RemoveNonAlphanumeric(1);
             this.SpawnRate = spawnRate;
         }
     }
@@ -93,7 +93,7 @@ namespace LethalSDK.Utils
         public int SpawnWeight;
         public SpawnableEnemiesPair(string enemyName, int spawnWeight)
         {
-            this.EnemyName = enemyName;
+            this.EnemyName = enemyName.RemoveNonAlphanumeric(1);
             this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
         }
     }
@@ -105,7 +105,7 @@ namespace LethalSDK.Utils
         public int SpawnWeight;
         public ScrapSpawnChancePerScene(string sceneName, int spawnWeight)
         {
-            this.SceneName = sceneName;
+            this.SceneName = sceneName.RemoveNonAlphanumeric(1);
             this.SpawnWeight = Mathf.Clamp(spawnWeight, 0, 100);
         }
     }
@@ -116,7 +116,7 @@ namespace LethalSDK.Utils
         public Scrap Scrap;
         public ScrapInfoPair(string scrapPath, Scrap scrap)
         {
-            this.ScrapPath = scrapPath;
+            this.ScrapPath = scrapPath.RemoveNonAlphanumeric(4);
             this.Scrap = scrap;
         }
     }
@@ -130,8 +130,8 @@ namespace LethalSDK.Utils
         public AudioClip AudioClip;
         public AudioClipInfoPair(string audioClipName, string audioClipPath)
         {
-            this.AudioClipName = audioClipName;
-            this.AudioClipPath = audioClipPath;
+            this.AudioClipName = audioClipName.RemoveNonAlphanumeric(1);
+            this.AudioClipPath = audioClipPath.RemoveNonAlphanumeric(4);
             AudioClip = null;
         }
     }
@@ -145,8 +145,8 @@ namespace LethalSDK.Utils
         public GameObject PlanetPrefab;
         public PlanetPrefabInfoPair(string planetPrefabName, string planetPrefabPath)
         {
-            this.PlanetPrefabName = planetPrefabName;
-            this.PlanetPrefabPath = planetPrefabPath;
+            this.PlanetPrefabName = planetPrefabName.RemoveNonAlphanumeric(1);
+            this.PlanetPrefabPath = planetPrefabPath.RemoveNonAlphanumeric(4);
             PlanetPrefab = null;
         }
     }

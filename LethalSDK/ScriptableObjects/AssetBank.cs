@@ -20,10 +20,19 @@ namespace LethalSDK.ScriptableObjects
         private PlanetPrefabInfoPair[] _planetPrefabs = new PlanetPrefabInfoPair[0];
         [HideInInspector]
         public string serializedAudioClips;
-        [HideInInspector]
         public string serializedPlanetPrefabs;
         private void OnValidate()
         {
+            for (int i = 0; i < _audioClips.Length; i++)
+            {
+                _audioClips[i].AudioClipName = _audioClips[i].AudioClipName.RemoveNonAlphanumeric(1);
+                _audioClips[i].AudioClipPath = _audioClips[i].AudioClipPath.RemoveNonAlphanumeric(4);
+            }
+            for (int i = 0; i < _planetPrefabs.Length; i++)
+            {
+                _planetPrefabs[i].PlanetPrefabName = _planetPrefabs[i].PlanetPrefabName.RemoveNonAlphanumeric(1);
+                _planetPrefabs[i].PlanetPrefabPath = _planetPrefabs[i].PlanetPrefabPath.RemoveNonAlphanumeric(4);
+            }
             serializedAudioClips = string.Join(";", _audioClips.Select(p => $"{(p.AudioClipName.Length == 0 ? (p.AudioClip != null ? p.AudioClip.name : "") : p.AudioClipName)},{AssetDatabase.GetAssetPath(p.AudioClip)}"));
             serializedPlanetPrefabs = string.Join(";", _planetPrefabs.Select(p => $"{(p.PlanetPrefabName.Length == 0 ? (p.PlanetPrefab != null ? p.PlanetPrefab.name : "") : p.PlanetPrefabName)},{AssetDatabase.GetAssetPath(p.PlanetPrefab)}"));
         }

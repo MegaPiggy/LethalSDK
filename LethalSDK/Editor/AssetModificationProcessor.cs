@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
+using LethalSDK.Utils;
 
 public class AssetModificationProcessor : AssetPostprocessor
 {
@@ -41,6 +42,10 @@ public class AssetModificationProcessor : AssetPostprocessor
                 asset.assetBundleVariant = "lem";
 
                 Debug.Log($"{assetPath} asset moved to {bundleName} asset bundle.");
+            }
+            if(assetPath != "Assets/Mods/" + assetPath.ToLower().Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4))
+            {
+                AssetDatabase.MoveAsset(assetPath, "Assets/Mods/" + assetPath.ToLower().Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4));
             }
         }
         else

@@ -159,6 +159,40 @@ namespace LethalSDK.ScriptableObjects
         public string serializedSpawnableOutsideObjects;
         private void OnValidate()
         {
+            RequiredBundles = RequiredBundles.RemoveNonAlphanumeric(1);
+            IncompatibleBundles = IncompatibleBundles.RemoveNonAlphanumeric(1);
+            MoonName = MoonName.RemoveNonAlphanumeric(1);
+            OrbitPrefabName = OrbitPrefabName.RemoveNonAlphanumeric(1);
+            PlanetName = PlanetName.RemoveNonAlphanumeric();
+            PlanetDescription = PlanetDescription.RemoveNonAlphanumeric();
+            RiskLevel = RiskLevel.RemoveNonAlphanumeric();
+            RouteWord = RouteWord.RemoveNonAlphanumeric(2);
+            BoughtComment = BoughtComment.RemoveNonAlphanumeric();
+            LevelAmbienceClips = LevelAmbienceClips.RemoveNonAlphanumeric(1);
+            for (int i = 0; i < _SpawnableScrap.Length; i++)
+            {
+                _SpawnableScrap[i].ObjectName = _SpawnableScrap[i].ObjectName.RemoveNonAlphanumeric(1);
+            }
+            for (int i = 0; i < _Enemies.Length; i++)
+            {
+                _Enemies[i].EnemyName = _Enemies[i].EnemyName.RemoveNonAlphanumeric(1);
+            }
+            for (int i = 0; i < _SpawnableMapObjects.Length; i++)
+            {
+                _SpawnableMapObjects[i].ObjectName = _SpawnableMapObjects[i].ObjectName.RemoveNonAlphanumeric(1);
+            }
+            for (int i = 0; i < _SpawnableOutsideObjects.Length; i++)
+            {
+                _SpawnableOutsideObjects[i].ObjectName = _SpawnableOutsideObjects[i].ObjectName.RemoveNonAlphanumeric(1);
+            }
+            for (int i = 0; i < _OutsideEnemies.Length; i++)
+            {
+                _OutsideEnemies[i].EnemyName = _Enemies[i].EnemyName.RemoveNonAlphanumeric(1);
+            }
+            for (int i = 0; i < _DaytimeEnemies.Length; i++)
+            {
+                _DaytimeEnemies[i].EnemyName = _Enemies[i].EnemyName.RemoveNonAlphanumeric(1);
+            }
             serializedRandomWeatherTypes = string.Join(";", _RandomWeatherTypes.Select(p => $"{(int)p.Weather},{p.WeatherVariable1},{p.WeatherVariable2}"));
             serializedDungeonFlowTypes = string.Join(";", _DungeonFlowTypes.Select(p => $"{p.ID},{p.Rarity}"));
             serializedSpawnableScrap = string.Join(";", _SpawnableScrap.Select(p => $"{p.ObjectName},{p.SpawnWeight}"));

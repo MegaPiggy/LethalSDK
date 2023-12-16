@@ -18,7 +18,10 @@ namespace LethalSDK.ScriptableObjects
         public string itemName = string.Empty;
         public int minValue = 0;
         public int maxValue = 0;
+        public bool twoHanded = false;
+        public bool twoHandedAnimation = false;
         public bool requiresBattery = false;
+        public bool isConductiveMetal = false;
         public int weight = 0;
         public GameObject prefab;
         [Header("Sounds")]
@@ -33,7 +36,7 @@ namespace LethalSDK.ScriptableObjects
         public Mesh[] meshVariants = new Mesh[0];
         public Material[] materialVariants = new Material[0];
         [Header("Spawn rate")]
-        public bool useGlobalSpawnRate = true;
+        public bool useGlobalSpawnWeight = true;
         [Range(0, 100)]
         public int globalSpawnWeight = 0;
         [SerializeField]
@@ -52,6 +55,15 @@ namespace LethalSDK.ScriptableObjects
         public string serializedData;
         private void OnValidate()
         {
+            RequiredBundles = RequiredBundles.RemoveNonAlphanumeric(1);
+            IncompatibleBundles = IncompatibleBundles.RemoveNonAlphanumeric(1);
+            itemName = itemName.RemoveNonAlphanumeric(1);
+            grabSFX = grabSFX.RemoveNonAlphanumeric(1);
+            dropSFX = dropSFX.RemoveNonAlphanumeric(1);
+            for(int i = 0; i < _perPlanetSpawnWeight.Length; i++)
+            {
+                _perPlanetSpawnWeight[i].SceneName = _perPlanetSpawnWeight[i].SceneName.RemoveNonAlphanumeric(1);
+            }
             serializedData = string.Join(";", _perPlanetSpawnWeight.Select(p => $"{p.SceneName},{p.SpawnWeight}"));
         }
         public ScrapSpawnChancePerScene[] perPlanetSpawnWeight()

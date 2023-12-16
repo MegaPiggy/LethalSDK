@@ -57,7 +57,7 @@ namespace LethalSDK.Component
         public string SubText;
         public int ScrapValue;
         public int CreatureScanID;
-        public int NodeType;
+        public NodeType NodeType;
         public override void Awake()
         {
             var tmp = this.gameObject.AddComponent<ScanNodeProperties>();
@@ -68,9 +68,15 @@ namespace LethalSDK.Component
             tmp.subText = SubText;
             tmp.scrapValue = ScrapValue;
             tmp.creatureScanID = CreatureScanID;
-            tmp.nodeType = NodeType;
+            tmp.nodeType = (int)NodeType;
             base.Awake();
         }
+    }
+    public enum NodeType
+    {
+        Information = 0,
+        Danger = 0,
+        Ressource = 0
     }
     [AddComponentMenu("LethalSDK/AudioReverbPresets")]
     public class SI_AudioReverbPresets : ScriptImporter
