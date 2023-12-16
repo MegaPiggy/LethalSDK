@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -37,7 +38,7 @@ namespace LethalSDK.Editor
         }
         private static void CompareVersions(string onlineVersion)
         {
-            if (!PlayerSettings.bundleVersion.Equals(onlineVersion))
+            if (Version.Parse(PlayerSettings.bundleVersion) < Version.Parse(onlineVersion))
             {
                 int option = EditorUtility.DisplayDialogComplex("Warning",
                     "The SDK is not up to date: " + onlineVersion,

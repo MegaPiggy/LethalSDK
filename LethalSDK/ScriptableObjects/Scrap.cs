@@ -38,18 +38,18 @@ namespace LethalSDK.ScriptableObjects
         [Header("Spawn rate")]
         public bool useGlobalSpawnWeight = true;
         [Range(0, 100)]
-        public int globalSpawnWeight = 0;
+        public int globalSpawnWeight = 10;
         [SerializeField]
         private ScrapSpawnChancePerScene[] _perPlanetSpawnWeight = new ScrapSpawnChancePerScene[]
         {
-            new ScrapSpawnChancePerScene("41 Experimentation", 0),
-            new ScrapSpawnChancePerScene("220 Assurance", 0),
-            new ScrapSpawnChancePerScene("56 Vow", 0),
-            new ScrapSpawnChancePerScene("21 Offense", 0),
-            new ScrapSpawnChancePerScene("61 March", 0),
-            new ScrapSpawnChancePerScene("85 Rend", 0),
-            new ScrapSpawnChancePerScene("7 Dine", 0),
-            new ScrapSpawnChancePerScene("8 Titan", 0)
+            new ScrapSpawnChancePerScene("41 Experimentation", 10),
+            new ScrapSpawnChancePerScene("220 Assurance", 10),
+            new ScrapSpawnChancePerScene("56 Vow", 10),
+            new ScrapSpawnChancePerScene("21 Offense", 10),
+            new ScrapSpawnChancePerScene("61 March", 10),
+            new ScrapSpawnChancePerScene("85 Rend", 10),
+            new ScrapSpawnChancePerScene("7 Dine", 10),
+            new ScrapSpawnChancePerScene("8 Titan", 10)
         };
         [HideInInspector]
         public string serializedData;
