@@ -10,7 +10,7 @@ namespace LethalSDK.Editor
         [InitializeOnLoadMethod]
         public static void CheckVersion()
         {
-            string url = "https://raw.githubusercontent.com/HolographicWings/LethalSDK-Unity-Project/main/last.txt";
+            const string url = "https://raw.githubusercontent.com/HolographicWings/LethalSDK-Unity-Project/main/last.txt";
             UnityWebRequest www = UnityWebRequest.Get(url);
             var operation = www.SendWebRequest();
 
