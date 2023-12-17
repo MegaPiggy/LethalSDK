@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Component\ScriptImporter.cs" />
     <Compile Include="Editor\AssetModificationProcessor.cs" />
+    <Compile Include="Editor\CopyrightsWindow.cs" />
     <Compile Include="Editor\CubemapTextureBuilder.cs" />
     <Compile Include="Component\LockPosition.cs" />
     <Compile Include="Editor\EditorChecker.cs" />
