@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,7 +43,7 @@ namespace LethalSDK.Editor
 
             if(t.MinRange > t.MaxRange)
             {
-                EditorGUILayout.HelpBox("Min Range must be smaller than Max Ranger", MessageType.Error);
+                EditorGUILayout.HelpBox("Min Range must be smaller than Max Ranger.", MessageType.Error);
             }
 
             base.OnInspectorGUI();
@@ -54,10 +55,33 @@ namespace LethalSDK.Editor
         public override void OnInspectorGUI()
         {
             Scrap t = (Scrap)target;
-
+            
             if(t.prefab == null)
             {
-                EditorGUILayout.HelpBox("You must add a prefab to your Scrap", MessageType.Info);
+                EditorGUILayout.HelpBox("You must add a Prefab to your Scrap.", MessageType.Info);
+            }
+            else
+            {
+                if(t.prefab.GetComponent<NetworkObject>() == null)
+                {
+                    EditorGUILayout.HelpBox("The Prefab must have a NetworkObject.", MessageType.Error);
+                }
+                if(t.prefab.transform.Find("ScanNode") == null)
+                {
+                    EditorGUILayout.HelpBox("The Prefab don't have a ScanNode.", MessageType.Warning);
+                }
+                if (AssetModificationProcessor.ExtractBundleNameFromPath(AssetDatabase.GetAssetPath(t.prefab)) != AssetModificationProcessor.ExtractBundleNameFromPath(AssetDatabase.GetAssetPath(t)))
+                {
+                    EditorGUILayout.HelpBox("The Prefab must come from the same mod as your Scrap.", MessageType.Warning);
+                }
+            }
+            if (t.itemName == null || t.itemName.Length == 0)
+            {
+                EditorGUILayout.HelpBox("You scrap must have a Name.", MessageType.Error);
+            }
+            if (!t.useGlobalSpawnWeight && !t.perPlanetSpawnWeight().Any(w => w.SceneName != null && w.SceneName.Length > 0))
+            {
+                EditorGUILayout.HelpBox("Your scrap use Per Planet Spawn Weight but no planet are defined.", MessageType.Warning);
             }
 
             base.OnInspectorGUI();

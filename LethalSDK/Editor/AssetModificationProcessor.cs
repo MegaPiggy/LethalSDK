@@ -59,7 +59,7 @@ public class AssetModificationProcessor : AssetPostprocessor
             }
         }
     }
-    private static string ExtractBundleNameFromPath(string path)
+    public static string ExtractBundleNameFromPath(string path)
     {
         var pathSegments = path.Split('/');
         if (pathSegments.Length > 3)
