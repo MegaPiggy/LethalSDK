@@ -49,66 +49,114 @@ namespace LethalSDK.ScriptableObjects
         }
         public AudioClipInfoPair[] AudioClips()
         {
-            return serializedAudioClips.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new AudioClipInfoPair(split[0], split[1])).ToArray();
+            if (serializedAudioClips != null)
+            {
+                return serializedAudioClips.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new AudioClipInfoPair(split[0], split[1])).ToArray();
+            }
+            return new AudioClipInfoPair[0];
         }
         public bool HaveAudioClip(string audioClipName)
         {
-            return AudioClips().Any(a => a.AudioClipName == audioClipName);
+            if (serializedAudioClips != null)
+            {
+                return AudioClips().Any(a => a.AudioClipName == audioClipName);
+            }
+            return false;
         }
         public string AudioClipPath(string audioClipName)
         {
-            return AudioClips().First(c => c.AudioClipName == audioClipName).AudioClipPath;
+            if (serializedAudioClips != null)
+            {
+                return AudioClips().First(c => c.AudioClipName == audioClipName).AudioClipPath;
+            }
+            return string.Empty;
         }
         public Dictionary<string, string> AudioClipsDictionary()
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var pair in _audioClips)
+            if (serializedAudioClips != null)
             {
-                dictionary.Add(pair.AudioClipName, pair.AudioClipPath);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (var pair in _audioClips)
+                {
+                    dictionary.Add(pair.AudioClipName, pair.AudioClipPath);
+                }
+                return dictionary;
             }
-            return dictionary;
+            return new Dictionary<string, string>();
         }
         public PlanetPrefabInfoPair[] PlanetPrefabs()
         {
-            return serializedPlanetPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PlanetPrefabInfoPair(split[0], split[1])).ToArray();
+            if (serializedPlanetPrefabs != null)
+            {
+                return serializedPlanetPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PlanetPrefabInfoPair(split[0], split[1])).ToArray();
+            }
+            return new PlanetPrefabInfoPair[0];
         }
         public bool HavePlanetPrefabs(string planetPrefabName)
         {
-            return PlanetPrefabs().Any(a => a.PlanetPrefabName == planetPrefabName);
+            if (serializedPlanetPrefabs != null)
+            {
+                return PlanetPrefabs().Any(a => a.PlanetPrefabName == planetPrefabName);
+            }
+            return false;
         }
         public string PlanetPrefabsPath(string planetPrefabName)
         {
-            return PlanetPrefabs().First(c => c.PlanetPrefabName == planetPrefabName).PlanetPrefabPath;
+            if (serializedPlanetPrefabs != null)
+            {
+                return PlanetPrefabs().First(c => c.PlanetPrefabName == planetPrefabName).PlanetPrefabPath;
+            }
+            return string.Empty;
         }
         public Dictionary<string, string> PlanetPrefabsDictionary()
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var pair in _planetPrefabs)
+            if (serializedPlanetPrefabs != null)
             {
-                dictionary.Add(pair.PlanetPrefabName, pair.PlanetPrefabPath);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (var pair in _planetPrefabs)
+                {
+                    dictionary.Add(pair.PlanetPrefabName, pair.PlanetPrefabPath);
+                }
+                return dictionary;
             }
-            return dictionary;
+            return new Dictionary<string, string>();
         }
         public PrefabInfoPair[] NetworkPrefabs()
         {
-            return serializedNetworkPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PrefabInfoPair(split[0], split[1])).ToArray();
+            if (serializedNetworkPrefabs != null)
+            {
+                return serializedNetworkPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PrefabInfoPair(split[0], split[1])).ToArray();
+            }
+            return new PrefabInfoPair[0];
         }
         public bool HaveNetworkPrefabs(string networkPrefabName)
         {
-            return NetworkPrefabs().Any(a => a.PrefabName == networkPrefabName);
+            if (serializedNetworkPrefabs != null)
+            {
+                return NetworkPrefabs().Any(a => a.PrefabName == networkPrefabName);
+            }
+            return false;
         }
         public string NetworkPrefabsPath(string networkPrefabName)
         {
-            return NetworkPrefabs().First(c => c.PrefabName == networkPrefabName).PrefabPath;
+            if (serializedNetworkPrefabs != null)
+            {
+                return NetworkPrefabs().First(c => c.PrefabName == networkPrefabName).PrefabPath;
+            }
+            return string.Empty;
         }
         public Dictionary<string, string> NetworkPrefabsDictionary()
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            foreach (var pair in _networkPrefabs)
+            if (serializedNetworkPrefabs != null)
             {
-                dictionary.Add(pair.PrefabName, pair.PrefabPath);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (var pair in _networkPrefabs)
+                {
+                    dictionary.Add(pair.PrefabName, pair.PrefabPath);
+                }
+                return dictionary;
             }
-            return dictionary;
+            return new Dictionary<string, string>();
         }
     }
 }
