@@ -18,10 +18,14 @@ namespace LethalSDK.ScriptableObjects
         private AudioClipInfoPair[] _audioClips = new AudioClipInfoPair[0];
         [SerializeField]
         private PlanetPrefabInfoPair[] _planetPrefabs = new PlanetPrefabInfoPair[0];
+        [SerializeField]
+        private PrefabInfoPair[] _networkPrefabs = new PrefabInfoPair[0];
         [HideInInspector]
         public string serializedAudioClips;
         [HideInInspector]
         public string serializedPlanetPrefabs;
+        [HideInInspector]
+        public string serializedNetworkPrefabs;
         private void OnValidate()
         {
             for (int i = 0; i < _audioClips.Length; i++)
@@ -34,8 +38,14 @@ namespace LethalSDK.ScriptableObjects
                 _planetPrefabs[i].PlanetPrefabName = _planetPrefabs[i].PlanetPrefabName.RemoveNonAlphanumeric(1);
                 _planetPrefabs[i].PlanetPrefabPath = _planetPrefabs[i].PlanetPrefabPath.RemoveNonAlphanumeric(4);
             }
+            for (int i = 0; i < _networkPrefabs.Length; i++)
+            {
+                _networkPrefabs[i].PrefabName = _networkPrefabs[i].PrefabName.RemoveNonAlphanumeric(1);
+                _networkPrefabs[i].PrefabPath = _networkPrefabs[i].PrefabPath.RemoveNonAlphanumeric(4);
+            }
             serializedAudioClips = string.Join(";", _audioClips.Select(p => $"{(p.AudioClipName.Length == 0 ? (p.AudioClip != null ? p.AudioClip.name : "") : p.AudioClipName)},{AssetDatabase.GetAssetPath(p.AudioClip)}"));
             serializedPlanetPrefabs = string.Join(";", _planetPrefabs.Select(p => $"{(p.PlanetPrefabName.Length == 0 ? (p.PlanetPrefab != null ? p.PlanetPrefab.name : "") : p.PlanetPrefabName)},{AssetDatabase.GetAssetPath(p.PlanetPrefab)}"));
+            serializedNetworkPrefabs = string.Join(";", _networkPrefabs.Select(p => $"{(p.PrefabName.Length == 0 ? (p.Prefab != null ? p.Prefab.name : "") : p.PrefabName)},{AssetDatabase.GetAssetPath(p.Prefab)}"));
         }
         public AudioClipInfoPair[] AudioClips()
         {
@@ -76,6 +86,27 @@ namespace LethalSDK.ScriptableObjects
             foreach (var pair in _planetPrefabs)
             {
                 dictionary.Add(pair.PlanetPrefabName, pair.PlanetPrefabPath);
+            }
+            return dictionary;
+        }
+        public PrefabInfoPair[] NetworkPrefabs()
+        {
+            return serializedNetworkPrefabs.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new PrefabInfoPair(split[0], split[1])).ToArray();
+        }
+        public bool HaveNetworkPrefabs(string networkPrefabName)
+        {
+            return NetworkPrefabs().Any(a => a.PrefabName == networkPrefabName);
+        }
+        public string NetworkPrefabsPath(string networkPrefabName)
+        {
+            return NetworkPrefabs().First(c => c.PrefabName == networkPrefabName).PrefabPath;
+        }
+        public Dictionary<string, string> NetworkPrefabsDictionary()
+        {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            foreach (var pair in _networkPrefabs)
+            {
+                dictionary.Add(pair.PrefabName, pair.PrefabPath);
             }
             return dictionary;
         }

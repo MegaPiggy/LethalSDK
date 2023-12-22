@@ -15,6 +15,11 @@ using UnityEngine.UIElements;
 using LethalSDK.Utils;
 using UnityEditor.SearchService;
 using UnityEditor;
+using Unity.Netcode;
+using UnityEngine.Events;
+using LethalSDK.ScriptableObjects;
+using System.Collections;
+using System.Diagnostics;
 
 namespace LethalSDK.Component
 {
@@ -41,7 +46,7 @@ namespace LethalSDK.Component
         public Light directLight;
         public override void Awake()
         {
-            var tmp = this.gameObject.AddComponent<animatedSun>();
+            animatedSun tmp = this.gameObject.AddComponent<animatedSun>();
             tmp.indirectLight = indirectLight;
             tmp.directLight = directLight;
             base.Awake();
@@ -60,7 +65,7 @@ namespace LethalSDK.Component
         public NodeType NodeType;
         public override void Awake()
         {
-            var tmp = this.gameObject.AddComponent<ScanNodeProperties>();
+            ScanNodeProperties tmp = this.gameObject.AddComponent<ScanNodeProperties>();
             tmp.minRange = MinRange;
             tmp.maxRange = MaxRange;
             tmp.requiresLineOfSight = RequiresLineOfSight;
@@ -89,7 +94,7 @@ namespace LethalSDK.Component
         public void Update()
         {
             int i = 0;
-            foreach (var preset in presets)
+            foreach (GameObject preset in presets)
             {
                 if(preset.GetComponent<SI_AudioReverbTrigger>() != null)
                 {
@@ -98,15 +103,15 @@ namespace LethalSDK.Component
             }
             if(i == 0)
             {
-                var list = new List<AudioReverbTrigger>();
-                foreach (var preset in presets)
+                List<AudioReverbTrigger> list = new List<AudioReverbTrigger>();
+                foreach (GameObject preset in presets)
                 {
                     if (preset.GetComponent<AudioReverbTrigger>() != null)
                     {
                         list.Add(preset.GetComponent<AudioReverbTrigger>());
                     }
                 }
-                var tmp = this.gameObject.AddComponent<AudioReverbPresets>();
+                AudioReverbPresets tmp = this.gameObject.AddComponent<AudioReverbPresets>();
                 tmp.audioPresets = list.ToArray();
                 Destroy(this);
             }
@@ -147,7 +152,7 @@ namespace LethalSDK.Component
 
         public override void Awake()
         {
-            var tmp = this.gameObject.AddComponent<AudioReverbTrigger>();
+            AudioReverbTrigger tmp = this.gameObject.AddComponent<AudioReverbTrigger>();
             ReverbPreset tmppreset = ScriptableObject.CreateInstance<ReverbPreset>();
             tmppreset.changeDryLevel = ChangeDryLevel;
             tmppreset.dryLevel = DryLevel;
@@ -214,45 +219,41 @@ namespace LethalSDK.Component
         public int EntranceID = 0;
         public Transform EntrancePoint;
         public int AudioReverbPreset = -1;
+        public AudioClip[] DoorAudios = new AudioClip[0];
 
-        public void Update()
-        {
-            GameObject dungeonEntrance = GameObject.Find("EntranceTeleportA(Clone)");
-            if (dungeonEntrance != null)
-            {
-                var audioSource = this.gameObject.AddComponent<AudioSource>();
-                audioSource.outputAudioMixerGroup = dungeonEntrance.GetComponent<AudioSource>().outputAudioMixerGroup;
-                audioSource.playOnAwake = false;
-                audioSource.spatialBlend = 1f;
-                var entranceTeleport = this.gameObject.AddComponent<EntranceTeleport>();
-                entranceTeleport.isEntranceToBuilding = true;
-                entranceTeleport.entrancePoint = EntrancePoint;
-                entranceTeleport.entranceId = EntranceID;
-                entranceTeleport.audioReverbPreset = AudioReverbPreset;
-                entranceTeleport.entrancePointAudio = audioSource;
-                entranceTeleport.doorAudios = dungeonEntrance.GetComponent<EntranceTeleport>().doorAudios;
-                var trigger = this.gameObject.AddComponent<InteractTrigger>();
-                trigger.hoverIcon = dungeonEntrance.GetComponent<InteractTrigger>().hoverIcon;
-                trigger.hoverTip = "Enter : [LMB]";
-                trigger.interactable = true;
-                trigger.oneHandedItemAllowed = true;
-                trigger.twoHandedItemAllowed = true;
-                trigger.holdInteraction = true;
-                trigger.timeToHold = 1.5f;
-                trigger.timeToHoldSpeedMultiplier = 1f;
-                trigger.holdingInteractEvent = new InteractEventFloat();
-                trigger.onInteract = new InteractEvent();
-                trigger.onInteractEarly = new InteractEvent();
-                trigger.onStopInteract = new InteractEvent();
-                trigger.onCancelAnimation = new InteractEvent();
-                trigger.onInteract.AddListener((player) => entranceTeleport.TeleportPlayer());
-
-                Destroy(this);
-            }
-        }
         public override void Awake()
         {
-            return;
+            AudioSource audioSource = this.gameObject.AddComponent<AudioSource>();
+            audioSource.outputAudioMixerGroup = AssetGatherDialog.audioMixers["Diagetic"].Item2.First(g => g.name == "Master");
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f;
+            EntranceTeleport entranceTeleport = this.gameObject.AddComponent<EntranceTeleport>();
+            entranceTeleport.isEntranceToBuilding = true;
+            entranceTeleport.entrancePoint = EntrancePoint;
+            entranceTeleport.entranceId = EntranceID;
+            entranceTeleport.audioReverbPreset = AudioReverbPreset;
+            entranceTeleport.entrancePointAudio = audioSource;
+            entranceTeleport.doorAudios = DoorAudios;
+            InteractTrigger trigger = this.gameObject.AddComponent<InteractTrigger>();
+            trigger.hoverIcon = AssetGatherDialog.sprites.ContainsKey("HandIcon") ? AssetGatherDialog.sprites["HandIcon"] : AssetGatherDialog.sprites.First().Value;
+            trigger.hoverTip = "Enter : [LMB]";
+            trigger.disabledHoverTip = string.Empty;
+            trigger.holdTip = string.Empty;
+            trigger.animationString = string.Empty;
+            trigger.interactable = true;
+            trigger.oneHandedItemAllowed = true;
+            trigger.twoHandedItemAllowed = true;
+            trigger.holdInteraction = true;
+            trigger.timeToHold = 1.5f;
+            trigger.timeToHoldSpeedMultiplier = 1f;
+            trigger.holdingInteractEvent = new InteractEventFloat();
+            trigger.onInteract = new InteractEvent();
+            trigger.onInteractEarly = new InteractEvent();
+            trigger.onStopInteract = new InteractEvent();
+            trigger.onCancelAnimation = new InteractEvent();
+            trigger.onInteract.AddListener((player) => entranceTeleport.TeleportPlayer());
+
+            base.Awake();
         }
     }
     [AddComponentMenu("LethalSDK/DoorLock")]
@@ -267,20 +268,59 @@ namespace LethalSDK.Component
     public class SI_WaterSurface : ScriptImporter
     {
         GameObject obj;
+        public int soundMaxDistance = 50;
         public override void Awake()
         {
             obj = Instantiate(SpawnPrefab.Instance.waterSurface);
             SceneManager.MoveGameObjectToScene(obj, this.gameObject.scene);
             obj.transform.parent = this.transform;
             obj.transform.localPosition = Vector3.zero;
+            Transform WaterMesh = obj.transform.Find("Water");
+            WaterMesh.GetComponent<MeshFilter>().sharedMesh = this.GetComponent<MeshFilter>().sharedMesh;
+            WaterMesh.position = this.transform.position;
+            WaterMesh.rotation = this.transform.rotation;
+            WaterMesh.localScale = this.transform.localScale;
+            SI_SoundYDistance soundYDistance = WaterMesh.gameObject.AddComponent<SI_SoundYDistance>();
+            soundYDistance.audioSource = obj.transform.Find("WaterAudio").GetComponent<AudioSource>();
+            soundYDistance.maxDistance = soundMaxDistance;
             obj.SetActive(true);
+
+            base.Awake();
         }
     }
     [AddComponentMenu("LethalSDK/Ladder")]
     public class SI_Ladder : ScriptImporter
     {
+        public Transform BottomPosition;
+        public Transform TopPosition;
+        public Transform HorizontalPosition;
+        public Transform PlayerNodePosition;
+        public bool UseRaycastToGetTopPosition = false;
         public override void Awake()
         {
+            InteractTrigger trigger = this.gameObject.AddComponent<InteractTrigger>();
+            trigger.hoverIcon = AssetGatherDialog.sprites.ContainsKey("HandLadderIcon") ? AssetGatherDialog.sprites["HandLadderIcon"] : AssetGatherDialog.sprites.First().Value;
+            trigger.hoverTip = "Climb : [LMB]";
+            trigger.disabledHoverTip = string.Empty;
+            trigger.holdTip = string.Empty;
+            trigger.animationString = string.Empty;
+            trigger.specialCharacterAnimation = true;
+            trigger.animationWaitTime = 0.5f;
+            trigger.animationString = "SA_PullLever";
+            trigger.isLadder = true;
+            trigger.lockPlayerPosition = true;
+            trigger.playerPositionNode = BottomPosition;
+            trigger.bottomOfLadderPosition = BottomPosition;
+            trigger.bottomOfLadderPosition = BottomPosition;
+            trigger.topOfLadderPosition = TopPosition;
+            trigger.ladderHorizontalPosition = HorizontalPosition;
+            trigger.ladderPlayerPositionNode = PlayerNodePosition;
+            trigger.useRaycastToGetTopPosition = UseRaycastToGetTopPosition;
+            trigger.holdingInteractEvent = new InteractEventFloat();
+            trigger.onCancelAnimation = new InteractEvent();
+            trigger.onInteract = new InteractEvent();
+            trigger.onInteractEarly = new InteractEvent();
+            trigger.onStopInteract = new InteractEvent();
             base.Awake();
         }
     }
@@ -296,45 +336,195 @@ namespace LethalSDK.Component
         public AudioClip ShipOpenDoorsSound;
         public override void Awake()
         {
-            var ItemDropship = this.gameObject.AddComponent<ItemDropship>();
+            ItemDropship ItemDropship = this.gameObject.AddComponent<ItemDropship>();
             ItemDropship.shipAnimator = ShipAnimator;
             ItemDropship.itemSpawnPositions = ItemSpawnPositions;
 
-            var _PlayAudioAnimationEvent = this.gameObject.AddComponent<PlayAudioAnimationEvent>();
+            PlayAudioAnimationEvent _PlayAudioAnimationEvent = this.gameObject.AddComponent<PlayAudioAnimationEvent>();
             _PlayAudioAnimationEvent.audioToPlay = this.GetComponent<AudioSource>();
             _PlayAudioAnimationEvent.audioClip = ShipLandSound;
             _PlayAudioAnimationEvent.audioClip2 = ShipOpenDoorsSound;
 
-            var OpenTriggerScript = OpenTriggerObject.AddComponent<InteractTrigger>();
+            InteractTrigger OpenTriggerScript = OpenTriggerObject.AddComponent<InteractTrigger>();
+            OpenTriggerScript.hoverIcon = AssetGatherDialog.sprites.ContainsKey("HandIcon") ? AssetGatherDialog.sprites["HandIcon"] : AssetGatherDialog.sprites.First().Value;
             OpenTriggerScript.hoverTip = "Open : [LMB]";
+            OpenTriggerScript.disabledHoverTip = string.Empty;
+            OpenTriggerScript.holdTip = string.Empty;
+            OpenTriggerScript.animationString = string.Empty;
             OpenTriggerScript.twoHandedItemAllowed = true;
             OpenTriggerScript.onInteract = new InteractEvent();
             OpenTriggerScript.onInteract.AddListener((player) => ItemDropship.TryOpeningShip());
 
             ItemDropship.triggerScript = OpenTriggerScript;
 
-            ItemDropship.transform.Find("Music").gameObject.AddComponent<OccludeAudio>();
-            var FacePlayerOnAxis = this.transform.Find("ThrusterContainer/Thruster").gameObject.AddComponent<facePlayerOnAxis>();
-            FacePlayerOnAxis.turnAxis = this.transform.Find("ThrusterContainer/flameAxis");
+            if(ItemDropship.transform.Find("Music") != null)
+            {
+                ItemDropship.transform.Find("Music").gameObject.AddComponent<OccludeAudio>();
+                if(this.transform.Find("ThrusterContainer/Thruster") != null)
+                {
+                    facePlayerOnAxis FacePlayerOnAxis = this.transform.Find("ThrusterContainer/Thruster").gameObject.AddComponent<facePlayerOnAxis>();
+                    FacePlayerOnAxis.turnAxis = this.transform.Find("ThrusterContainer/flameAxis");
+                }
+            }
 
-            var KillLocalPlayerScript = KillTriggerObject.AddComponent<KillLocalPlayer>();
+            KillLocalPlayer KillLocalPlayerScript = KillTriggerObject.AddComponent<KillLocalPlayer>();
 
-            var KillTriggerScript = KillTriggerObject.AddComponent<InteractTrigger>();
+            InteractTrigger KillTriggerScript = KillTriggerObject.AddComponent<InteractTrigger>();
+            KillTriggerScript.hoverTip = string.Empty;
+            KillTriggerScript.disabledHoverTip = string.Empty;
+            KillTriggerScript.holdTip = string.Empty;
+            KillTriggerScript.animationString = string.Empty;
             KillTriggerScript.touchTrigger = true;
             KillTriggerScript.triggerOnce = true;
             KillTriggerScript.onInteract = new InteractEvent();
             KillTriggerScript.onInteract.AddListener((player) => KillLocalPlayerScript.KillPlayer(player));
+
+            base.Awake();
         }
 
-        public void Update()
+    }
+    [AddComponentMenu("LethalSDK/NetworkPrefabInstancier")]
+    public class SI_NetworkPrefabInstancier : ScriptImporter
+    {
+        public GameObject prefab;
+        public override void Awake()
         {
-            GameObject dungeonEntrance = GameObject.Find("EntranceTeleportA(Clone)");
-            if (dungeonEntrance != null)
+            if(prefab != null)
             {
-                var TriggerScript = OpenTriggerObject.GetComponent<InteractTrigger>();
-                TriggerScript.hoverIcon = dungeonEntrance.GetComponent<InteractTrigger>().hoverIcon;
-                Destroy(this);
+                NetworkObject no = prefab.GetComponent<NetworkObject>();
+                if (no != null && no.NetworkManager != null && no.NetworkManager.IsHost)
+                {
+                    GameObject instance = NetworkObject.Instantiate(prefab, this.transform.position, this.transform.rotation, this.transform.parent);
+                    instance.GetComponent<NetworkObject>().Spawn();
+                }
             }
+            Destroy(this.gameObject);
         }
+    }
+    [AddComponentMenu("LethalSDK/InteractTrigger")]
+    public class SI_InteractTrigger : ScriptImporter
+    {
+        [Header("Aesthetics")]
+        public string hoverIcon = "HandIcon";
+        public string hoverTip = "Interact";
+        public string disabledHoverIcon = string.Empty;
+        public string disabledHoverTip = string.Empty;
+        [Header("Interaction")]
+        public bool interactable = true;
+        public bool oneHandedItemAllowed = true;
+        public bool twoHandedItemAllowed = false;
+        public bool holdInteraction = false;
+        public float timeToHold = 0.5f;
+        public float timeToHoldSpeedMultiplier = 1f;
+        public string holdTip = string.Empty;
+        public UnityEvent<float> holdingInteractEvent = new UnityEvent<float>();
+        public bool touchTrigger = false;
+        public bool triggerOnce = false;
+        [Header("Misc")]
+        public bool interactCooldown = true;
+        public float cooldownTime = 1f;
+        public bool disableTriggerMesh = true;
+        public bool RandomChanceTrigger = false;
+        public int randomChancePercentage = 0;
+        [Header("Events")]
+        public UnityEvent<object> onInteract = new UnityEvent<object>();
+        public UnityEvent<object> onInteractEarly = new UnityEvent<object>();
+        public UnityEvent<object> onStopInteract = new UnityEvent<object>();
+        public UnityEvent<object> onCancelAnimation = new UnityEvent<object>();
+        [Header("Special Animation")]
+        public bool specialCharacterAnimation = false;
+        public bool stopAnimationManually = false;
+        public string stopAnimationString = "SA_stopAnimation";
+        public bool hidePlayerItem = false;
+        public bool isPlayingSpecialAnimation = false;
+        public float animationWaitTime = 2f;
+        public string animationString = string.Empty;
+        public bool lockPlayerPosition = false;
+        public Transform playerPositionNode;
+        [Header("Ladders")]
+        public bool isLadder = false;
+        public Transform topOfLadderPosition;
+        public bool useRaycastToGetTopPosition = false;
+        public Transform bottomOfLadderPosition;
+        public Transform ladderHorizontalPosition;
+        public Transform ladderPlayerPositionNode;
+
+        public override void Awake()
+        {
+            InteractTrigger trigger = this.gameObject.AddComponent<InteractTrigger>();
+            if (hoverIcon != null && hoverIcon.Length > 0)
+            {
+                trigger.hoverIcon = null;
+            }
+            else
+            {
+                trigger.hoverIcon = AssetGatherDialog.sprites.ContainsKey(hoverIcon) ? AssetGatherDialog.sprites[hoverIcon] : AssetGatherDialog.sprites.First().Value;
+            }
+            trigger.hoverTip = hoverTip;
+            if(disabledHoverIcon != null && disabledHoverIcon.Length > 0)
+            {
+                trigger.disabledHoverIcon = null;
+            }
+            else
+            {
+                trigger.disabledHoverIcon = AssetGatherDialog.sprites.ContainsKey(disabledHoverIcon) ? AssetGatherDialog.sprites[disabledHoverIcon] : AssetGatherDialog.sprites.First().Value;
+            }
+            trigger.disabledHoverTip = disabledHoverTip;
+            trigger.interactable = interactable;
+            trigger.oneHandedItemAllowed = oneHandedItemAllowed;
+            trigger.twoHandedItemAllowed = twoHandedItemAllowed;
+            trigger.holdInteraction = holdInteraction;
+            trigger.timeToHold = timeToHold;
+            trigger.timeToHoldSpeedMultiplier = timeToHoldSpeedMultiplier;
+            trigger.holdTip = holdTip;
+            trigger.holdingInteractEvent = new InteractEventFloat();
+            trigger.holdingInteractEvent.AddListener((single) => holdingInteractEvent.Invoke(single));
+            trigger.touchTrigger = touchTrigger;
+            trigger.triggerOnce = triggerOnce;
+            trigger.interactCooldown = interactCooldown;
+            trigger.cooldownTime = cooldownTime;
+            trigger.disableTriggerMesh = disableTriggerMesh;
+            trigger.RandomChanceTrigger = RandomChanceTrigger;
+            trigger.randomChancePercentage = randomChancePercentage;
+            trigger.onInteract = new InteractEvent();
+            trigger.onInteract.AddListener((player) => onInteract.Invoke(player));
+            trigger.onInteractEarly = new InteractEvent();
+            trigger.onInteractEarly.AddListener((player) => onInteractEarly.Invoke(player));
+            trigger.onStopInteract = new InteractEvent();
+            trigger.onStopInteract.AddListener((player) => onStopInteract.Invoke(player));
+            trigger.onCancelAnimation = new InteractEvent();
+            trigger.onCancelAnimation.AddListener((player) => onCancelAnimation.Invoke(player));
+            trigger.specialCharacterAnimation = specialCharacterAnimation;
+            trigger.stopAnimationManually = stopAnimationManually;
+            trigger.stopAnimationString = stopAnimationString;
+            trigger.hidePlayerItem = hidePlayerItem;
+            trigger.isPlayingSpecialAnimation = isPlayingSpecialAnimation;
+            trigger.animationWaitTime = animationWaitTime;
+            trigger.animationString = animationString;
+            trigger.lockPlayerPosition = lockPlayerPosition;
+            trigger.playerPositionNode = playerPositionNode;
+            trigger.isLadder = isLadder;
+            trigger.topOfLadderPosition = topOfLadderPosition;
+            trigger.useRaycastToGetTopPosition = useRaycastToGetTopPosition;
+            trigger.bottomOfLadderPosition = bottomOfLadderPosition;
+            trigger.ladderHorizontalPosition = ladderHorizontalPosition;
+            trigger.ladderPlayerPositionNode = ladderPlayerPositionNode;
+        }
+    }
+    public enum SI_CauseOfDeath
+    {
+        Unknown = 0,
+        Bludgeoning = 1,
+        Gravity = 2,
+        Blast = 3,
+        Strangulation = 4,
+        Suffocation = 5,
+        Mauling = 6,
+        Gunshots = 7,
+        Crushing = 8,
+        Drowning = 9,
+        Abandoned = 10,
+        Electrocution = 11,
+        Kicking = 12
     }
 }

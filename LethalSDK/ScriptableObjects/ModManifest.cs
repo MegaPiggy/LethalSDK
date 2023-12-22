@@ -18,7 +18,7 @@ namespace LethalSDK.ScriptableObjects
         [Space]
         public string author = "Author";
         [Space]
-        [TextAreaAttribute]
+        [TextArea(5, 15)]
         public string description = "Mod Description";
         [Space]
         [HeaderAttribute("Content")]

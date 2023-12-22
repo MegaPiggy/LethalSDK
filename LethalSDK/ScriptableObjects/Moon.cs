@@ -28,15 +28,17 @@ namespace LethalSDK.ScriptableObjects
         public string PlanetDescription;
         public VideoClip PlanetVideo;
         public string RiskLevel = "X";
+        [Range(0,16)]
         public float TimeToArrive = 1;
 
         [Header("Time")]
+        [Range(0.1f, 5f)]
         public float DaySpeedMultiplier = 1f;
         public bool PlanetHasTime = true;
         [SerializeField]
         private RandomWeatherPair[] _RandomWeatherTypes = new RandomWeatherPair[]
         {
-            new RandomWeatherPair(LethalSDK.Utils.LevelWeatherType.Rainy, 0,0),
+            new RandomWeatherPair(LethalSDK.Utils.LevelWeatherType.None, 0,0),
             new RandomWeatherPair(LethalSDK.Utils.LevelWeatherType.Rainy, 0,0),
             new RandomWeatherPair(LethalSDK.Utils.LevelWeatherType.Stormy, 1,0),
             new RandomWeatherPair(LethalSDK.Utils.LevelWeatherType.Foggy, 1,0),
@@ -52,6 +54,7 @@ namespace LethalSDK.ScriptableObjects
         public string BoughtComment = "Please enjoy your flight.";
 
         [Header("Dungeon")]
+        [Range(1f, 5f)]
         public float FactorySizeMultiplier = 1f;
         public int FireExitsAmountOverwrite = 1;
         [SerializeField]
@@ -83,9 +86,12 @@ namespace LethalSDK.ScriptableObjects
             new SpawnableScrapPair("GoldBar", 1),
             new SpawnableScrapPair("YieldSign", 6)
         };
+        [Range(0, 100)]
         public int MinScrap = 8;
+        [Range(0, 100)]
         public int MaxScrap = 12;
         public string LevelAmbienceClips = "Level1TypeAmbience";
+        [Range(0, 30)]
         public int MaxEnemyPowerCount = 4;
         [SerializeField]
         private SpawnableEnemiesPair[] _Enemies = new SpawnableEnemiesPair[]
@@ -100,6 +106,7 @@ namespace LethalSDK.ScriptableObjects
             new SpawnableEnemiesPair("Puffer", 28)
         };
         public AnimationCurve EnemySpawnChanceThroughoutDay = CurveContainer.DeserializeCurve(@"{""curve"":{""serializedVersion"":""2"",""m_Curve"":[{""serializedVersion"":""3"",""time"":0.0015411376953125,""value"":-3.0,""inSlope"":19.556997299194337,""outSlope"":19.556997299194337,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.0,""outWeight"":0.12297855317592621},{""serializedVersion"":""3"",""time"":0.4575331211090088,""value"":4.796203136444092,""inSlope"":24.479534149169923,""outSlope"":24.479534149169923,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.396077424287796,""outWeight"":0.35472238063812258},{""serializedVersion"":""3"",""time"":0.7593884468078613,""value"":4.973001480102539,""inSlope"":2.6163148880004885,""outSlope"":2.6163148880004885,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.2901076376438141,""outWeight"":0.5360636115074158},{""serializedVersion"":""3"",""time"":1.0,""value"":15.0,""inSlope"":35.604026794433597,""outSlope"":35.604026794433597,""tangentMode"":0,""weightedMode"":1,""inWeight"":0.04912583902478218,""outWeight"":0.0}],""m_PreInfinity"":2,""m_PostInfinity"":2,""m_RotationOrder"":4}}");
+        [Range(0f, 30f)]
         public float SpawnProbabilityRange = 4f;
 
         [Header("Outside")]
@@ -120,7 +127,9 @@ namespace LethalSDK.ScriptableObjects
             new SpawnableOutsideObjectPair("SmallGreyRocks1", CurveContainer.DeserializeCurve(@"{""curve"":{""serializedVersion"":""2"",""m_Curve"":[{""serializedVersion"":""3"",""time"":0.0,""value"":0.0,""inSlope"":1.6912956237792969,""outSlope"":1.6912956237792969,""tangentMode"":0,""weightedMode"":2,""inWeight"":0.0,""outWeight"":0.27726083993911745},{""serializedVersion"":""3"",""time"":0.802714467048645,""value"":1.5478605031967164,""inSlope"":9.096116065979004,""outSlope"":9.096116065979004,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.15920747816562653,""outWeight"":0.58766108751297},{""serializedVersion"":""3"",""time"":1.0002281665802003,""value"":14.584033966064454,""inSlope"":1244.9173583984375,""outSlope"":1244.9173583984375,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.054620321840047839,""outWeight"":0.0}],""m_PreInfinity"":2,""m_PostInfinity"":2,""m_RotationOrder"":4}}")),
             new SpawnableOutsideObjectPair("GiantPumpkin", CurveContainer.DeserializeCurve(@"{""curve"":{""serializedVersion"":""2"",""m_Curve"":[{""serializedVersion"":""3"",""time"":0.0,""value"":0.0,""inSlope"":1.6912956237792969,""outSlope"":1.6912956237792969,""tangentMode"":0,""weightedMode"":2,""inWeight"":0.0,""outWeight"":0.27726083993911745},{""serializedVersion"":""3"",""time"":0.8832725882530212,""value"":0.5284063816070557,""inSlope"":3.2962090969085695,""outSlope"":29.38977813720703,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.19772815704345704,""outWeight"":0.8989489078521729},{""serializedVersion"":""3"",""time"":0.972209095954895,""value"":6.7684478759765629,""inSlope"":140.27394104003907,""outSlope"":140.27394104003907,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.39466607570648196,""outWeight"":0.47049039602279665},{""serializedVersion"":""3"",""time"":1.0002281665802003,""value"":23.0,""inSlope"":579.3037109375,""outSlope"":14.8782377243042,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.648808479309082,""outWeight"":0.0}],""m_PreInfinity"":2,""m_PostInfinity"":2,""m_RotationOrder"":4}}"))
         };
+        [Range(0, 30)]
         public int MaxOutsideEnemyPowerCount = 8;
+        [Range(0, 30)]
         public int MaxDaytimeEnemyPowerCount = 5;
         [SerializeField]
         private SpawnableEnemiesPair[] _OutsideEnemies = new SpawnableEnemiesPair[]
@@ -138,6 +147,7 @@ namespace LethalSDK.ScriptableObjects
         };
         public AnimationCurve OutsideEnemySpawnChanceThroughDay = CurveContainer.DeserializeCurve(@"{""curve"":{""serializedVersion"":""2"",""m_Curve"":[{""serializedVersion"":""3"",""time"":-7.736962288618088e-7,""value"":-2.996999979019165,""inSlope"":Infinity,""outSlope"":0.5040292143821716,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.0,""outWeight"":0.08937685936689377},{""serializedVersion"":""3"",""time"":0.7105481624603272,""value"":-0.6555822491645813,""inSlope"":9.172262191772461,""outSlope"":9.172262191772461,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.3333333432674408,""outWeight"":0.7196550369262695},{""serializedVersion"":""3"",""time"":1.0052626132965088,""value"":5.359400749206543,""inSlope"":216.42247009277345,""outSlope"":11.374387741088868,""tangentMode"":0,""weightedMode"":3,""inWeight"":0.044637180864810947,""outWeight"":0.48315444588661196}],""m_PreInfinity"":2,""m_PostInfinity"":2,""m_RotationOrder"":4}}");
         public AnimationCurve DaytimeEnemySpawnChanceThroughDay = CurveContainer.DeserializeCurve(@"{""curve"":{""serializedVersion"":""2"",""m_Curve"":[{""serializedVersion"":""3"",""time"":0.0,""value"":2.2706568241119386,""inSlope"":-7.500085353851318,""outSlope"":-7.500085353851318,""tangentMode"":0,""weightedMode"":0,""inWeight"":0.3333333432674408,""outWeight"":0.20650266110897065},{""serializedVersion"":""3"",""time"":0.38507816195487978,""value"":-0.0064108967781066898,""inSlope"":-2.7670974731445314,""outSlope"":-2.7670974731445314,""tangentMode"":0,""weightedMode"":0,""inWeight"":0.28388944268226626,""outWeight"":0.30659767985343935},{""serializedVersion"":""3"",""time"":0.6767024993896484,""value"":-7.021658420562744,""inSlope"":-27.286888122558595,""outSlope"":-27.286888122558595,""tangentMode"":0,""weightedMode"":0,""inWeight"":0.10391546785831452,""outWeight"":0.12503522634506226},{""serializedVersion"":""3"",""time"":0.9998173117637634,""value"":-14.818100929260254,""inSlope"":0.0,""outSlope"":0.0,""tangentMode"":0,""weightedMode"":0,""inWeight"":0.0,""outWeight"":0.0}],""m_PreInfinity"":2,""m_PostInfinity"":2,""m_RotationOrder"":4}}");
+        [Range(0f, 30f)]
         public float DaytimeEnemiesProbabilityRange = 5f;
         public bool LevelIncludesSnowFootprints = false;
 
@@ -168,6 +178,18 @@ namespace LethalSDK.ScriptableObjects
             RouteWord = RouteWord.RemoveNonAlphanumeric(2);
             BoughtComment = BoughtComment.RemoveNonAlphanumeric();
             LevelAmbienceClips = LevelAmbienceClips.RemoveNonAlphanumeric(1);
+            TimeToArrive = Mathf.Clamp(TimeToArrive, 0, 16);
+            DaySpeedMultiplier = Mathf.Clamp(DaySpeedMultiplier, 0.1f, 5f);
+            RoutePrice = Mathf.Clamp(RoutePrice, 0, int.MaxValue);
+            FactorySizeMultiplier = Mathf.Clamp(FactorySizeMultiplier, 1f, 5f);
+            FireExitsAmountOverwrite = Mathf.Clamp(FireExitsAmountOverwrite, 0, 20);
+            MinScrap = Mathf.Clamp(MinScrap, 0, MaxScrap);
+            MaxScrap = Mathf.Clamp(MaxScrap, MinScrap, 100);
+            MaxEnemyPowerCount = Mathf.Clamp(MaxEnemyPowerCount, 0, 30);
+            MaxOutsideEnemyPowerCount = Mathf.Clamp(MaxOutsideEnemyPowerCount, 0, 30);
+            MaxDaytimeEnemyPowerCount = Mathf.Clamp(MaxDaytimeEnemyPowerCount, 0, 30);
+            SpawnProbabilityRange = Mathf.Clamp(SpawnProbabilityRange, 0f, 30f);
+            DaytimeEnemiesProbabilityRange = Mathf.Clamp(DaytimeEnemiesProbabilityRange, 0f, 30f);
             for (int i = 0; i < _SpawnableScrap.Length; i++)
             {
                 _SpawnableScrap[i].ObjectName = _SpawnableScrap[i].ObjectName.RemoveNonAlphanumeric(1);

@@ -113,15 +113,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\MonoBehaviour.cs" />
     <Compile Include="Component\ScriptImporter.cs" />
     <Compile Include="Editor\AssetModificationProcessor.cs" />
     <Compile Include="Editor\CopyrightsWindow.cs" />
     <Compile Include="Editor\CubemapTextureBuilder.cs" />
-    <Compile Include="Component\LockPosition.cs" />
+    <Compile Include="Component\PlayerShip.cs" />
     <Compile Include="Editor\EditorChecker.cs" />
-    <Compile Include="Editor\LockPositionEditor.cs" />
+    <Compile Include="Editor\PlayerShipEditor.cs" />
     <Compile Include="Editor\OldAssetsRemover.cs" />
     <Compile Include="Editor\VersionChecker.cs" />
+    <Compile Include="Utils\AssetGatherDialog.cs" />
     <Compile Include="Utils\Classes.cs" />
     <Compile Include="Editor\LethalSDKCategory.cs" />
     <Compile Include="Editor\Lethal_AssetBundleBuilderWindow.cs" />

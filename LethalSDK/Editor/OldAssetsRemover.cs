@@ -13,7 +13,7 @@ namespace LethalSDK.Editor
             "Assets/Mods/LethalExpansion/AudioMixerController",
             "Assets/Mods/LethalExpansion/Materials/Default.mat",
             "Assets/Mods/LethalExpansion/Prefabs/Settings",
-            "Assets/Mods/LethalExpansion/Prefabs/EntranceTeleport.prefab",
+            "Assets/Mods/LethalExpansion/Prefabs/EntranceTeleportA.prefab",
             "Assets/Mods/LethalExpansion/Prefabs/Prefabs.zip",
             "Assets/Mods/LethalExpansion/Scenes/ItemPlaceTest",
             "Assets/Mods/LethalExpansion/Sprites/HandIcon.png",
@@ -36,7 +36,10 @@ namespace LethalSDK.Editor
             "Assets/Mods/LethalExpansion/Textures/sunTexture1.png",
             "Assets/Mods/OldSeaPort/Materials/Maple_bark_1.mat",
             "Assets/Mods/OldSeaPort/Materials/maple_leaves.mat",
-            "Assets/Mods/TemplateMod/AssetBank.asset"
+            "Assets/Mods/TemplateMod/AssetBank.asset",
+            "Assets/Mods/OldSeaPort/EffectExamples/Shared/Scripts",
+            "Assets/Mods/OldSeaPort/scenes",
+            "Assets/Mods/OldSeaPort/prefabs/Plane (12).prefab",
         };
 
         [InitializeOnLoadMethod]

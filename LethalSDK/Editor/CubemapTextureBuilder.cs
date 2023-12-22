@@ -8,7 +8,7 @@ using System.IO;
 public class CubemapTextureBuilder : EditorWindow
 {
     //Copyright : https://gist.github.com/RemyUnity
-    [MenuItem("LethalSDK/Cubemap Builder")]
+    [MenuItem("LethalSDK/Cubemap Builder", false, 100)]
     public static void OpenWindow()
     {
         GetWindow<CubemapTextureBuilder>();
@@ -125,7 +125,7 @@ public class CubemapTextureBuilder : EditorWindow
 
             File.WriteAllBytes(path, bytes);
 
-            DestroyImmediate(cubeTexture);
+            Destroy(cubeTexture);
 
             // Reset the read flags, and reimport everything
             for (var i = 0; i < 6; i++)

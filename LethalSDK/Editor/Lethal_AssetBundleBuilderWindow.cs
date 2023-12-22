@@ -14,7 +14,7 @@ namespace LethalSDK.Editor
         compressionOption compressionMode = compressionOption.NormalCompression;
         bool _64BitsMode;
 
-        [MenuItem("LethalSDK/AssetBundle Builder")]
+        [MenuItem("LethalSDK/AssetBundle Builder", false, 100)]
         public static void ShowWindow()
         {
             Lethal_AssetBundleBuilderWindow window = GetWindow<Lethal_AssetBundleBuilderWindow>("AssetBundle Builder");
