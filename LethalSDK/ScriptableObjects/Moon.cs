@@ -173,7 +173,6 @@ namespace LethalSDK.ScriptableObjects
             IncompatibleBundles = IncompatibleBundles.RemoveNonAlphanumeric(1);
             MoonName = MoonName.RemoveNonAlphanumeric(1);
             OrbitPrefabName = OrbitPrefabName.RemoveNonAlphanumeric(1);
-            PlanetName = PlanetName.RemoveNonAlphanumeric();
             RiskLevel = RiskLevel.RemoveNonAlphanumeric();
             RouteWord = RouteWord.RemoveNonAlphanumeric(2);
             BoughtComment = BoughtComment.RemoveNonAlphanumeric();
