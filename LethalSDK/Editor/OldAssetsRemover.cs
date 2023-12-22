@@ -40,6 +40,7 @@ namespace LethalSDK.Editor
             "Assets/Mods/OldSeaPort/EffectExamples/Shared/Scripts",
             "Assets/Mods/OldSeaPort/scenes",
             "Assets/Mods/OldSeaPort/prefabs/Plane (12).prefab",
+            "Assets/Mods/LethalExpansion/Meshes/labyrinth.fbx"
         };
 
         [InitializeOnLoadMethod]
