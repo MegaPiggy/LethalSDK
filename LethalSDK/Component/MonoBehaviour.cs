@@ -126,6 +126,7 @@ namespace LethalSDK.Component
                     instance.GetComponent<NetworkObject>().Spawn();
                 }
             }
+            this.gameObject.SetActive(false);
         }
         public void OnDestroy()
         {
