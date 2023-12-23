@@ -110,4 +110,34 @@ namespace LethalSDK.Component
             Destroy(this);
         }
     }
+    [AddComponentMenu("LethalSDK/NetworkPrefabInstancier")]
+    public class SI_NetworkPrefabInstancier : MonoBehaviour
+    {
+        public GameObject prefab;
+        public GameObject instance;
+        public void Awake()
+        {
+            if (prefab != null)
+            {
+                NetworkObject no = prefab.GetComponent<NetworkObject>();
+                if (no != null && no.NetworkManager != null && no.NetworkManager.IsHost)
+                {
+                    instance = NetworkObject.Instantiate(prefab, this.transform.position, this.transform.rotation, this.transform.parent);
+                    instance.GetComponent<NetworkObject>().Spawn();
+                }
+            }
+        }
+        public void OnDestroy()
+        {
+            if (instance != null)
+            {
+                NetworkObject no = prefab.GetComponent<NetworkObject>();
+                if (no != null && no.NetworkManager != null && no.NetworkManager.IsHost)
+                {
+                    instance.GetComponent<NetworkObject>().Despawn();
+                    Destroy(instance);
+                }
+            }
+        }
+    }
 }

@@ -383,24 +383,6 @@ namespace LethalSDK.Component
         }
 
     }
-    [AddComponentMenu("LethalSDK/NetworkPrefabInstancier")]
-    public class SI_NetworkPrefabInstancier : ScriptImporter
-    {
-        public GameObject prefab;
-        public override void Awake()
-        {
-            if(prefab != null)
-            {
-                NetworkObject no = prefab.GetComponent<NetworkObject>();
-                if (no != null && no.NetworkManager != null && no.NetworkManager.IsHost)
-                {
-                    GameObject instance = NetworkObject.Instantiate(prefab, this.transform.position, this.transform.rotation, this.transform.parent);
-                    instance.GetComponent<NetworkObject>().Spawn();
-                }
-            }
-            Destroy(this.gameObject);
-        }
-    }
     [AddComponentMenu("LethalSDK/InteractTrigger")]
     public class SI_InteractTrigger : ScriptImporter
     {
