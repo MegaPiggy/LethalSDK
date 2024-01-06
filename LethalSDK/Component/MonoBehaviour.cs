@@ -114,6 +114,7 @@ namespace LethalSDK.Component
     public class SI_NetworkPrefabInstancier : MonoBehaviour
     {
         public GameObject prefab;
+        [HideInInspector]
         public GameObject instance;
         public void Awake()
         {

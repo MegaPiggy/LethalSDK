@@ -15,6 +15,7 @@ namespace LethalSDK.ScriptableObjects
         public string[] RequiredBundles;
         public string[] IncompatibleBundles;
         [Header("Base")]
+        public ScrapType scrapType = ScrapType.Normal;
         public string itemName = string.Empty;
         public int minValue = 0;
         public int maxValue = 0;
@@ -51,6 +52,12 @@ namespace LethalSDK.ScriptableObjects
             new ScrapSpawnChancePerScene("7 Dine", 10),
             new ScrapSpawnChancePerScene("8 Titan", 10)
         };
+        [Header("Shovel")]
+        public int shovelHitForce = 1;
+        public bool isHoldingButton = false;
+        public AudioClip reelUp;
+        public AudioClip swing;
+        public AudioClip[] hitSFX;
         [HideInInspector]
         public string serializedData;
         private void OnValidate()
@@ -70,5 +77,10 @@ namespace LethalSDK.ScriptableObjects
         {
             return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new ScrapSpawnChancePerScene(split[0], int.Parse(split[1]))).ToArray();
         }
+    }
+    public enum ScrapType
+    {
+        Normal = 0,
+        Shovel = 1
     }
 }

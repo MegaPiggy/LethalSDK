@@ -90,28 +90,29 @@ namespace LethalSDK.Editor
             }
             BuildTarget target = _64BitsMode ? BuildTarget.StandaloneWindows64 : BuildTarget.StandaloneWindows;
 
-            try
+            if(assetBundleDirectory != null || assetBundleDirectory.Length != 0 || assetBundleDirectory != string.Empty)
             {
-                if(assetBundleDirectory != null || assetBundleDirectory.Length != 0)
+                AssetBundleManifest manifest = null;
+                try
                 {
-                    AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
-                    if(manifest != null)
-                    {
-                        Debug.Log("AssetBundles built successfully.");
-                    }
-                    else
-                    {
-                        Debug.LogError("Cannot build AssetBundles.");
-                    }
+                    manifest = BuildPipeline.BuildAssetBundles(assetBundleDirectory, options, target);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex.Message);
+                }
+                if (manifest != null)
+                {
+                    Debug.Log("AssetBundles built successfully.");
                 }
                 else
                 {
-                    Debug.LogError("AssetBundles path cannot be blank.");
+                    Debug.LogError("Cannot build AssetBundles.");
                 }
             }
-            catch(Exception ex)
+            else
             {
-                Debug.LogError(ex.Message);
+                Debug.LogError("AssetBundles path cannot be blank.");
             }
 
         }
