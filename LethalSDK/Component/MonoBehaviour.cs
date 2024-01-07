@@ -116,6 +116,7 @@ namespace LethalSDK.Component
         public GameObject prefab;
         [HideInInspector]
         public GameObject instance;
+        public InterfaceType interfaceType = InterfaceType.None;
         public void Awake()
         {
             if (prefab != null)
@@ -123,6 +124,30 @@ namespace LethalSDK.Component
                 NetworkObject no = prefab.GetComponent<NetworkObject>();
                 if (no != null && no.NetworkManager != null && no.NetworkManager.IsHost)
                 {
+                    SI_NetworkDataInterfacing NDI = this.GetComponent<SI_NetworkDataInterfacing>();
+                    if (NDI != null)
+                    {
+                        StringStringPair[] data = NDI.getData();
+                        switch (interfaceType)
+                        {
+                            case InterfaceType.Base:
+                                break;
+                            case InterfaceType.Entrance:
+                                SI_EntranceTeleport ET = prefab.GetComponentInChildren<SI_EntranceTeleport>();
+                                if (ET != null)
+                                {
+                                    if (data.Any(e => e._string1.ToLower() == "entranceid"))
+                                    {
+                                        int.TryParse(data.First(e => e._string1.ToLower() == "entranceid")._string2, out ET.EntranceID);
+                                    }
+                                    if(data.Any(e => e._string1.ToLower() == "audioreverbpreset"))
+                                    {
+                                        int.TryParse(data.First(e => e._string1.ToLower() == "audioreverbpreset")._string2, out ET.AudioReverbPreset);
+                                    }
+                                }
+                                break;
+                        }
+                    }
                     instance = NetworkObject.Instantiate(prefab, this.transform.position, this.transform.rotation, this.transform.parent);
                     instance.GetComponent<NetworkObject>().Spawn();
                 }
@@ -140,6 +165,27 @@ namespace LethalSDK.Component
                     Destroy(instance);
                 }
             }
+        }
+    }
+    public enum InterfaceType
+    {
+        None = 0,
+        Base = 1,
+        Entrance = 2,
+    }
+    [AddComponentMenu("LethalSDK/NetworkDataInterfacing")]
+    public class SI_NetworkDataInterfacing : MonoBehaviour
+    {
+        public StringStringPair[] data;
+        [HideInInspector]
+        public string serializedData;
+        private void OnValidate()
+        {
+            serializedData = string.Join(";", data.Select(p => $"{p._string1},{p._string2}"));
+        }
+        public virtual StringStringPair[] getData()
+        {
+            return serializedData.Split(';').Select(s => s.Split(',')).Where(split => split.Length == 2).Select(split => new StringStringPair(split[0], split[1])).ToArray();
         }
     }
 }

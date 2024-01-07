@@ -218,7 +218,7 @@ namespace LethalSDK.Component
     {
         public int EntranceID = 0;
         public Transform EntrancePoint;
-        public int AudioReverbPreset = -1;
+        public int AudioReverbPreset = 2;
         public AudioClip[] DoorAudios = new AudioClip[0];
 
         public override void Awake()
