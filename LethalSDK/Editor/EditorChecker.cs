@@ -246,6 +246,30 @@ namespace LethalSDK.Editor
                 {
                     EditorGUILayout.HelpBox("The Prefab must have a NetworkObject.", MessageType.Error);
                 }
+                else
+                {
+                    NetworkObject no = t.prefab.GetComponent<NetworkObject>();
+                    string errorMessage = string.Empty;
+                    if (no.AlwaysReplicateAsRoot != false)
+                        errorMessage += "\n- AlwaysReplicateAsRoot should be false.";
+                    if (no.SynchronizeTransform != true)
+                        errorMessage += "\n- SynchronizeTransform should be true.";
+                    if (no.ActiveSceneSynchronization != false)
+                        errorMessage += "\n- ActiveSceneSynchronization should be false.";
+                    if (no.SceneMigrationSynchronization != true)
+                        errorMessage += "\n- SceneMigrationSynchronization should be true.";
+                    if (no.SpawnWithObservers != true)
+                        errorMessage += "\n- SpawnWithObservers should be true.";
+                    if (no.DontDestroyWithOwner != true)
+                        errorMessage += "\n- DontDestroyWithOwner should be true.";
+                    if (no.AutoObjectParentSync != false)
+                        errorMessage += "\n- AutoObjectParentSync should be false.";
+
+                    if (errorMessage.Length > 0)
+                    {
+                        EditorGUILayout.HelpBox($"The NetworkObject of the Prefab have incorrect settings: {errorMessage}", MessageType.Warning);
+                    }
+                }
                 if(t.prefab.transform.Find("ScanNode") == null)
                 {
                     EditorGUILayout.HelpBox("The Prefab don't have a ScanNode.", MessageType.Warning);

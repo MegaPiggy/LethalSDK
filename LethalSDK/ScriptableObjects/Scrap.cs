@@ -55,9 +55,37 @@ namespace LethalSDK.ScriptableObjects
         [Header("Shovel")]
         public int shovelHitForce = 1;
         public bool isHoldingButton = false;
-        public AudioClip reelUp;
-        public AudioClip swing;
-        public AudioClip[] hitSFX;
+        public string reelUp = "ShovelReelUp";
+        public string swing = "ShovelSwing";
+        public string[] hitSFX = new string[]{ "ShovelHitDefault", "ShovelHitDefault2" };
+        [Header("Flashlight")]
+        public bool usingPlayerHelmetLight = false;
+        public int flashlightInterferenceLevel = 0;
+        public Light flashlightBulb;
+        public Light flashlightBulbGlow;
+        public AudioSource flashlightAudio;
+        public string[] flashlightClips = new string[] { "FlashlightClick" };
+        public string outOfBatteriesClip = "FlashlightOutOfBatteries";
+        public string flashlightFlicker = "FlashlightFlicker";
+        public Material bulbLight;
+        public Material bulbDark;
+        public MeshRenderer flashlightMesh;
+        public int flashlightTypeID = 0;
+        public bool changeMaterial = true;
+        [Header("Noisemaker")]
+        public AudioSource noiseAudio;
+        public AudioSource noiseAudioFar;
+        public string[] noiseSFX = new string[] { "ClownHorn1" };
+        public string[] noiseSFXFar = new string[] { "ClownHornFar" };
+        public float noiseRange = 60f;
+        public float maxLoudness = 1f;
+        public float minLoudness = 0.6f;
+        public float minPitch = 0.93f;
+        public float maxPitch = 1f;
+        public Animator triggerAnimator;
+        [Header("WhoopieCushion")]
+        public AudioSource whoopieCushionAudio;
+        public string[] fartAudios = new string[] { "Fart1" , "Fart2", "Fart3", "Fart5" };
         [HideInInspector]
         public string serializedData;
         private void OnValidate()
@@ -81,6 +109,9 @@ namespace LethalSDK.ScriptableObjects
     public enum ScrapType
     {
         Normal = 0,
-        Shovel = 1
+        Shovel = 1,
+        Flashlight = 2,
+        Noisemaker = 3,
+        WhoopieCushion = 4,
     }
 }
