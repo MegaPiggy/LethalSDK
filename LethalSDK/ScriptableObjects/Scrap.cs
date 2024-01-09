@@ -20,7 +20,7 @@ namespace LethalSDK.ScriptableObjects
         public int minValue = 0;
         public int maxValue = 0;
         public bool twoHanded = false;
-        public bool twoHandedAnimation = false;
+        public GrabAnim HandedAnimation = GrabAnim.OneHanded;
         public bool requiresBattery = false;
         public bool isConductiveMetal = false;
         public int weight = 0;
@@ -50,11 +50,13 @@ namespace LethalSDK.ScriptableObjects
             new ScrapSpawnChancePerScene("61 March", 10),
             new ScrapSpawnChancePerScene("85 Rend", 10),
             new ScrapSpawnChancePerScene("7 Dine", 10),
-            new ScrapSpawnChancePerScene("8 Titan", 10)
+            new ScrapSpawnChancePerScene("8 Titan", 10),
+            new ScrapSpawnChancePerScene("Others", 10)
         };
         [Header("Shovel")]
         public int shovelHitForce = 1;
         public bool isHoldingButton = false;
+        public AudioSource shovelAudio;
         public string reelUp = "ShovelReelUp";
         public string swing = "ShovelSwing";
         public string[] hitSFX = new string[]{ "ShovelHitDefault", "ShovelHitDefault2" };
@@ -113,5 +115,13 @@ namespace LethalSDK.ScriptableObjects
         Flashlight = 2,
         Noisemaker = 3,
         WhoopieCushion = 4,
+    }
+    public enum GrabAnim
+    {
+        OneHanded = 0,
+        TwoHanded = 1,
+        Shotgun = 2,
+        Jetpack = 3,
+        Clipboard = 4,
     }
 }
