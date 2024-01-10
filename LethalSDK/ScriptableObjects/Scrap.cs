@@ -55,7 +55,6 @@ namespace LethalSDK.ScriptableObjects
         };
         [Header("Shovel")]
         public int shovelHitForce = 1;
-        public bool isHoldingButton = false;
         public AudioSource shovelAudio;
         public string reelUp = "ShovelReelUp";
         public string swing = "ShovelSwing";
