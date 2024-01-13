@@ -86,6 +86,7 @@ namespace LethalSDK.ScriptableObjects
             new SpawnableScrapPair("GoldBar", 1),
             new SpawnableScrapPair("YieldSign", 6)
         };
+        public string[] spawnableScrapBlacklist = new string[0];
         [Range(0, 100)]
         public int MinScrap = 8;
         [Range(0, 100)]
