@@ -34,7 +34,7 @@ public class AssetModificationProcessor : AssetPostprocessor
         if (assetPath.ToLower().StartsWith("assets/mods/") && assetPath.Split('/').Length > 3 && !assetPath.ToLower().EndsWith(".unity") && !assetPath.ToLower().Contains("/scenes"))
         {
             var asset = AssetImporter.GetAtPath(assetPath);
-            if (asset != null)
+            if (asset != null && asset.assetBundleVariant != "rem")
             {
                 string bundleName = ExtractBundleNameFromPath(assetPath);
 
@@ -43,9 +43,9 @@ public class AssetModificationProcessor : AssetPostprocessor
 
                 Debug.Log($"{assetPath} asset moved to {bundleName} asset bundle.");
             }
-            if(assetPath != "Assets/Mods/" + assetPath.ToLower().Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4))
+            if (assetPath != "Assets/Mods/" + assetPath.Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4))
             {
-                AssetDatabase.MoveAsset(assetPath, "Assets/Mods/" + assetPath.ToLower().Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4));
+                AssetDatabase.MoveAsset(assetPath, "Assets/Mods/" + assetPath.Replace("assets/mods/", string.Empty).RemoveNonAlphanumeric(4));
             }
         }
         else
@@ -135,7 +135,7 @@ public class AssetBundleVariantAssigner
 
         if (!Directory.Exists(folderPath))
         {
-            Debug.LogError("Le dossier n'existe pas : " + folderPath);
+            Debug.LogError("The folder does not exist : " + folderPath);
             return;
         }
 

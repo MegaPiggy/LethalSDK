@@ -10,7 +10,7 @@ namespace LethalSDK.Editor
         private static string compressionModeKey = "LethalSDK_AssetBundleBuilderWindow_compressionMode";
         private static string _64BitsModeKey = "LethalSDK_AssetBundleBuilderWindow_64BitsMode";
         
-        string assetBundleDirectory = string.Empty;
+        string assetBundleDirectory = "Assets/AssetBundles";
         compressionOption compressionMode = compressionOption.NormalCompression;
         bool _64BitsMode;
 
